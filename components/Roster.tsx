@@ -90,11 +90,7 @@ const Roster: React.FC = () => {
               {/* Card Content */}
               <div className="absolute inset-0 z-10 flex flex-col justify-end p-6 sm:p-8">
                 {/* Top Badge */}
-                <div className="absolute top-6 left-6 translate-y-[-20px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-                  <div className="bg-lime-500 text-slate-900 text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-lg">
-                    Represented Athlete
-                  </div>
-                </div>
+                <div className="absolute top-6 left-6 translate-y-[-20px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100"></div>
 
                 {/* Main Info Wrapper - No default translation, relies on max-height of sibling to push up */}
                 <div className="transition-transform duration-500">
