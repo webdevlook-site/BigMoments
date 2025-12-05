@@ -19,7 +19,7 @@ const Hero: React.FC = () => {
         {/* Stadium Image - Static high quality */}
         <div className="absolute inset-0">
           <img
-            src="/images/field.jpg"
+            src="/images/field.webp"
             alt="Stadium Background"
             className="w-full h-full object-cover scale-105" // Slight scale for premium feel
           />
