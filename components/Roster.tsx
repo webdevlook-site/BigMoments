@@ -1,138 +1,183 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SectionId, Player } from "../types";
-import { Calendar, Shield, User } from "lucide-react";
+import { Shield, Target, User, MapPin } from "lucide-react";
 
 interface EnhancedPlayer extends Player {
   dob: string;
+  jerseyNumber: number;
 }
 
 const players: EnhancedPlayer[] = [
   {
     id: 1,
-    name: "Charles Shedrack",
+    name: "Player Name",
     position: "Striker",
     age: 22,
-    club: "FK IMT - senior and U19",
-    imageUrl: "/images/shedrack.jpg",
+    club: "FK IMT",
+    imageUrl: "https://placehold.co/600x800/0f172a/FFFFFF?text=Player+Name",
     dob: "10.07.2003",
+    jerseyNumber: 9,
     featured: true,
   },
   {
     id: 2,
-    name: "Jusuf Faisal",
+    name: "Player Name",
     position: "Striker",
     age: 21,
-    club: "FC Grafičar U19",
-    imageUrl: "/images/faisal.jpg",
+    club: "FC Grafičar",
+    imageUrl: "https://placehold.co/600x800/0f172a/FFFFFF?text=Player+Name",
     dob: "06.08.2004",
+    jerseyNumber: 11,
   },
   {
     id: 3,
-    name: "Favour Ogbu",
+    name: "Player Name",
     position: "Central Defender",
     age: 21,
-    club: "Red Star Belgrade U19",
-    imageUrl: "/images/ogbu.jpg",
+    club: "Red Star Belgrade",
+    imageUrl: "https://placehold.co/600x800/0f172a/FFFFFF?text=Player+Name",
     dob: "26.06.2004",
+    jerseyNumber: 5,
   },
 ];
 
+const getPositionIcon = (position: string) => {
+  const lowerPos = position.toLowerCase();
+  if (
+    lowerPos.includes("striker") ||
+    lowerPos.includes("forward") ||
+    lowerPos.includes("attack")
+  )
+    return Target;
+  if (lowerPos.includes("defender") || lowerPos.includes("back")) return Shield;
+  return User;
+};
+
 const Roster: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setIsVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id={SectionId.PLAYERS}
-      className="py-24 bg-slate-900 relative overflow-hidden"
+      className="py-24 bg-teal-950 relative overflow-hidden"
     >
-      {/* Background Accents */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/4" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-lime-500/5 rounded-full blur-3xl pointer-events-none translate-y-1/3 -translate-x-1/4" />
+      {/* Background Texture */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(255,255,255,0.05)_10px,rgba(255,255,255,0.05)_11px)]"></div>
+      </div>
+
+      {/* Ambient Lighting */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-teal-600/10 rounded-full blur-[120px] pointer-events-none translate-y-1/3 -translate-x-1/4" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-          <div className="text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-lime-400 font-bold text-xs uppercase tracking-widest mb-4 shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-lime-500 animate-pulse"></span>
-              Active Roster
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
-              Elite Talent <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
-                Representation
+        <div
+          className={`flex flex-col md:flex-row items-start md:items-end justify-between mb-20 gap-8 border-b border-white/10 pb-8 reveal-on-scroll ${
+            isVisible ? "is-visible" : ""
+          }`}
+        >
+          <div>
+            <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter leading-[0.85]">
+              The{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 pr-4">
+                Squad
               </span>
             </h2>
           </div>
-          <div className="md:text-right max-w-md">
-            <p className="text-slate-400 text-lg leading-relaxed">
-              We represent carefully selected professionals with exceptional
-              skill and character. Future stars of European football.
-            </p>
+          <div className="text-left md:text-right">
+            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              Season
+            </div>
+            <div className="text-2xl font-black text-white font-mono">
+              25/26
+            </div>
           </div>
         </div>
 
         {/* Player Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {players.map((player) => (
-            <div
-              key={player.id}
-              className="group relative h-[500px] rounded-3xl overflow-hidden bg-slate-800 border border-slate-700 hover:border-lime-500/50 transition-all duration-500 shadow-2xl hover:shadow-[0_0_40px_rgba(132,204,22,0.15)]"
-            >
-              {/* Image */}
-              <div className="absolute inset-0 z-0">
-                <img
-                  src={player.imageUrl}
-                  alt={player.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500" />
-              </div>
+          {players.map((player, index) => {
+            const PositionIcon = getPositionIcon(player.position);
+            const delayClass =
+              index === 0 ? "" : index === 1 ? "delay-200" : "delay-300";
 
-              {/* Card Content */}
-              <div className="absolute inset-0 z-10 flex flex-col justify-end p-6 sm:p-8">
-                {/* Top Badge */}
-                <div className="absolute top-6 left-6 translate-y-[-20px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100"></div>
+            return (
+              <div
+                key={player.id}
+                className={`group relative bg-teal-900 rounded-[2rem] p-1.5 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] reveal-on-scroll ${delayClass} ${
+                  isVisible ? "is-visible" : ""
+                }`}
+              >
+                {/* Card Border Gradient */}
+                <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/10 to-transparent opacity-50 pointer-events-none"></div>
 
-                {/* Main Info Wrapper - No default translation, relies on max-height of sibling to push up */}
-                <div className="transition-transform duration-500">
-                  <div className="mb-1">
-                    <span className="text-lime-400 font-bold uppercase tracking-widest text-xs flex items-center gap-2 mb-2">
-                      <Shield className="w-3 h-3" />
-                      {player.position}
-                    </span>
-                    <h3 className="text-3xl font-black text-white leading-none mb-1">
-                      {player.name}
-                    </h3>
-                    <p className="text-slate-300 font-medium text-lg">
-                      {player.club}
-                    </p>
+                <div className="relative h-full bg-teal-950 rounded-[1.7rem] overflow-hidden border border-white/5 group-hover:border-emerald-500/30 transition-colors">
+                  {/* Background Jersey Number */}
+                  <div className="absolute top-0 right-4 text-[180px] font-black text-white/5 leading-none z-0 font-mono italic select-none">
+                    {player.jerseyNumber}
                   </div>
 
-                  {/* Collapsible Content Wrapper */}
-                  <div className="max-h-0 opacity-0 group-hover:max-h-[300px] group-hover:opacity-100 overflow-hidden transition-all duration-500 ease-out">
-                    {/* Detailed Stats */}
-                    <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-white/10 pb-2">
-                      <div>
-                        <p className="text-slate-500 text-xs uppercase tracking-wider font-bold mb-1 flex items-center gap-1">
-                          <Calendar className="w-3 h-3" /> Date of Birth
-                        </p>
-                        <p className="text-white font-mono font-bold">
-                          {player.dob}
-                        </p>
+                  {/* Player Image Container */}
+                  <div className="relative h-[450px] z-10">
+                    <img
+                      src={player.imageUrl}
+                      alt={player.name}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                    />
+                    {/* Gradient for text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/40 to-transparent"></div>
+                  </div>
+
+                  {/* Player Info Overlay */}
+                  <div className="absolute bottom-0 left-0 w-full p-8 z-20">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center text-teal-950 shadow-lg shadow-emerald-500/20">
+                        <PositionIcon className="w-3 h-3" />
                       </div>
                       <div>
-                        <p className="text-slate-500 text-xs uppercase tracking-wider font-bold mb-1 flex items-center gap-1">
-                          <User className="w-3 h-3" /> Age
-                        </p>
-                        <p className="text-white font-mono font-bold">
-                          {player.age} Years
-                        </p>
+                        <div className="text-white font-bold uppercase tracking-widest text-[10px] leading-tight opacity-70">
+                          {player.position}
+                        </div>
+                        <div className="text-white font-bold text-sm leading-tight flex items-center gap-1.5">
+                          <MapPin className="w-3 h-3 text-emerald-400" />
+                          {player.club}
+                        </div>
                       </div>
+                    </div>
+
+                    <h3 className="text-2xl md:text-3xl font-black text-white uppercase italic tracking-tight leading-[0.85] mb-2">
+                      {player.name}
+                    </h3>
+
+                    <div className="w-full h-[1px] bg-gradient-to-r from-emerald-500/50 to-transparent mt-4 mb-2"></div>
+
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                        {player.age} Years Old
+                      </span>
+                      <span className="font-mono text-emerald-400 font-bold text-lg">
+                        #{player.jerseyNumber}
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

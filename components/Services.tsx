@@ -1,134 +1,300 @@
-import React from 'react';
-import { SectionId, ServiceItem } from '../types';
-import { Scale, HeartPulse, TrendingUp, Mic2, Briefcase, GraduationCap, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import React, { useEffect, useRef, useState } from "react";
+import { SectionId, ServiceItem } from "../types";
+import {
+  Scale,
+  HeartPulse,
+  TrendingUp,
+  Mic2,
+  Briefcase,
+  GraduationCap,
+  ArrowUpRight,
+  CheckCircle2,
+  Quote,
+  Layout,
+} from "lucide-react";
 
 const services: ServiceItem[] = [
-  { id: 1, title: "Career Management", description: "Strategic planning, contract negotiation, and club selection to maximize your professional value at every stage of your career.", iconName: "Briefcase" },
-  { id: 2, title: "Legal Support", description: "Comprehensive legal protection, contract review, and dispute resolution ensuring your rights are always secured.", iconName: "Scale" },
-  { id: 3, title: "Medical & Performance", description: "Access to elite medical facilities, nutritionists, and rehabilitation specialists to ensure peak physical condition.", iconName: "HeartPulse" },
-  { id: 4, title: "Financial Planning", description: "Expert investment advice, tax planning, and wealth management for a secure future beyond football.", iconName: "TrendingUp" },
-  { id: 5, title: "PR & Branding", description: "Building your personal brand, managing social media presence, and securing lucrative sponsorship opportunities.", iconName: "Mic2" },
-  { id: 6, title: "Life Transition", description: "Dedicated support for life after professional sport, including education, business development, and adaptation.", iconName: "GraduationCap" },
+  {
+    id: 1,
+    title: "Career Management",
+    description:
+      "Ensuring the best possible training and working conditions to help you make the most of your talent.",
+    iconName: "Briefcase",
+  },
+  {
+    id: 2,
+    title: "Legal Support",
+    description:
+      "Comprehensive legal support and advice ensuring your rights and contracts are always secure.",
+    iconName: "Scale",
+  },
+  {
+    id: 3,
+    title: "Medical & Rehab",
+    description:
+      "Crucial medical support for development and rehabilitation to maintain peak physical condition.",
+    iconName: "HeartPulse",
+  },
+  {
+    id: 4,
+    title: "Financial Planning",
+    description:
+      "Expert investment advice and financial planning to secure your wealth and future prosperity.",
+    iconName: "TrendingUp",
+  },
+  {
+    id: 5,
+    title: "PR & Branding",
+    description:
+      "Strategic PR representation, marketing, and branding opportunities to grow your personal image.",
+    iconName: "Mic2",
+  },
+  {
+    id: 6,
+    title: "Life Transition",
+    description:
+      "Dedicated planning for life after professional sport and easing the transition into your next chapter.",
+    iconName: "GraduationCap",
+  },
 ];
 
 const IconMap: Record<string, React.ElementType> = {
-  Briefcase, Scale, HeartPulse, TrendingUp, Mic2, GraduationCap
+  Briefcase,
+  Scale,
+  HeartPulse,
+  TrendingUp,
+  Mic2,
+  GraduationCap,
 };
 
 const Services: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   const scrollToContact = () => {
-    document.getElementById(SectionId.CONTACT)?.scrollIntoView({ behavior: 'smooth' });
+    document
+      .getElementById(SectionId.CONTACT)
+      ?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section id={SectionId.ABOUT} className="py-24 bg-slate-50 relative overflow-hidden">
-        {/* Background Decorations */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-            <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-blue-100/50 rounded-full blur-3xl mix-blend-multiply" />
-            <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-lime-100/50 rounded-full blur-3xl mix-blend-multiply" />
+    <section
+      ref={sectionRef}
+      id={SectionId.ABOUT}
+      className="py-24 bg-slate-50 relative overflow-hidden"
+    >
+      {/* Background Decorations: Tactical Grid (Dark lines on light bg) */}
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.05)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+      </div>
+
+      {/* Ambient Glows */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-100/60 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-teal-100/60 rounded-full blur-[100px] pointer-events-none translate-y-1/2 -translate-x-1/4" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header / Philosophy Split */}
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center mb-24">
+          {/* Text Content */}
+          <div className={`reveal-on-scroll ${isVisible ? "is-visible" : ""}`}>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-white border border-slate-200 text-teal-700 font-bold text-xs uppercase tracking-[0.2em] mb-6 shadow-sm">
+              <Layout className="w-3 h-3" />
+              Our Philosophy
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-black text-slate-900 leading-[0.9] mb-8 uppercase italic tracking-tight">
+              More Than Just <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
+                An Agency.
+              </span>
+            </h2>
+
+            <p className="text-slate-600 font-medium text-lg mb-8 leading-relaxed">
+              Founded in 2011 in Belgrade, our team members bring an impeccable
+              reputation and a very strong football background. From the
+              beginning, our priority has been providing the best possible
+              service for our clients and partners.
+            </p>
+
+            <div className="flex flex-col gap-5">
+              <div className="flex items-start gap-4 group">
+                <div className="mt-1 p-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                  <CheckCircle2 className="w-5 h-5 shrink-0" />
+                </div>
+                <p className="text-slate-600 font-medium text-lg">
+                  Strong long-term partnerships with clubs in all top European
+                  football countries.
+                </p>
+              </div>
+              <div className="flex items-start gap-4 group">
+                <div className="mt-1 p-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                  <CheckCircle2 className="w-5 h-5 shrink-0" />
+                </div>
+                <p className="text-slate-600 font-medium text-lg">
+                  Specialized in transition and adaptation for young players
+                  from Africa, Americas, and Asia.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-4 items-center mt-10">
+              <div className="w-16 h-1 bg-gradient-to-r from-emerald-500 to-transparent rounded-full"></div>
+              <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">
+                Est. 2011 • Belgrade
+              </p>
+            </div>
+          </div>
+
+          {/* Quote Card */}
+          <div
+            className={`relative reveal-on-scroll delay-200 ${
+              isVisible ? "is-visible" : ""
+            }`}
+          >
+            <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-emerald-500/30 rounded-tr-3xl"></div>
+            <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-emerald-500/30 rounded-bl-3xl"></div>
+
+            <div className="bg-teal-950 p-8 md:p-10 rounded-2xl border border-teal-800 relative overflow-hidden group hover:border-emerald-500/30 transition-all duration-500 shadow-2xl">
+              <Quote className="absolute top-6 right-6 w-20 h-20 text-white/5 rotate-180 group-hover:scale-110 transition-transform duration-700" />
+
+              <div className="relative z-10 space-y-6">
+                <p className="text-white text-xl md:text-2xl font-light italic leading-relaxed">
+                  "You are not just another player in the database, you are{" "}
+                  <span className="text-emerald-400 font-bold not-italic">
+                    part of the family.
+                  </span>{" "}
+                  We put your well being first, and there are no compromises
+                  there."
+                </p>
+                <div className="flex items-center gap-4 pt-4 border-t border-white/10">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center font-bold text-teal-950 text-xs">
+                    MM
+                  </div>
+                  <div>
+                    <div className="text-white font-bold uppercase text-sm tracking-wider">
+                      Miloš Manojlović
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            {/* Header / About Split */}
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start mb-20">
-                <div>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-blue-600 font-bold text-xs uppercase tracking-widest mb-6 shadow-sm">
-                        <span className="w-2 h-2 rounded-full bg-lime-500"></span>
-                        Who We Are
-                    </div>
-                    <h2 className="text-4xl sm:text-5xl font-black text-slate-900 leading-tight mb-6">
-                        More Than Just <br/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-500">
-                            An Agency.
-                        </span>
-                    </h2>
-                    
-                    <div className="flex flex-col gap-4">
-                        <div className="flex items-start gap-3">
-                            <CheckCircle2 className="w-6 h-6 text-lime-500 shrink-0 mt-0.5" />
-                            <p className="text-slate-600 font-medium">Strong long-term partnerships in top European leagues.</p>
-                        </div>
-                        <div className="flex items-start gap-3">
-                            <CheckCircle2 className="w-6 h-6 text-lime-500 shrink-0 mt-0.5" />
-                            <p className="text-slate-600 font-medium">Specialized in transition for young international talents.</p>
-                        </div>
-                    </div>
-
-                    <div className="flex gap-4 items-center mt-8">
-                         <div className="w-12 h-1 bg-lime-500 rounded-full"></div>
-                         <p className="text-slate-500 font-bold uppercase tracking-wide text-xs">Since 2011</p>
-                    </div>
-                </div>
-
-                <div className="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-slate-100 relative group hover:border-blue-100 transition-colors">
-                     {/* Decorative quote mark */}
-                    <div className="absolute -top-6 -left-4 text-9xl text-blue-100 leading-none select-none font-serif opacity-50 group-hover:opacity-100 group-hover:text-blue-300 transition-all duration-300">"</div>
-                    
-                    <div className="relative z-10 space-y-6">
-                        <p className="text-slate-600 text-lg leading-relaxed">
-                            <span className="font-bold text-slate-900">We don't just manage careers; we build families.</span> From the beginning, our priority has been providing the best possible service. 
-                            We ensure you have the best training conditions and make the most of your talent.
-                        </p>
-                        <p className="text-slate-600 text-lg leading-relaxed">
-                            You need a lifelong partner you can rely on. We put your well-being first, and there are no compromises.
-                            <br />
-                            <span className="text-blue-600 font-bold text-sm uppercase tracking-wider mt-4 block">
-                                — The Big Moments Philosophy
-                            </span>
-                        </p>
-                    </div>
-                </div>
+        {/* Services Grid Title */}
+        <div
+          className={`flex items-end justify-between mb-12 border-b border-slate-200 pb-6 reveal-on-scroll ${
+            isVisible ? "is-visible" : ""
+          }`}
+        >
+          <div>
+            <h3 className="text-3xl font-black text-slate-900 uppercase italic tracking-tight">
+              The Game Plan
+            </h3>
+          </div>
+          <div className="hidden sm:block text-right">
+            <div className="text-xs font-bold text-teal-700 uppercase tracking-widest">
+              Tactical Overview
             </div>
-
-            {/* Services Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {services.map((service) => {
-                    const Icon = IconMap[service.iconName];
-                    return (
-                        <div key={service.id} className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-2xl hover:shadow-blue-900/5 border border-slate-100 hover:border-blue-100 transition-all duration-300 relative overflow-hidden">
-                            {/* Corner Accent */}
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-slate-50 to-slate-100 rounded-bl-[4rem] -mr-6 -mt-6 transition-transform group-hover:scale-125" />
-                            
-                            <div className="relative z-10">
-                                <div className="w-14 h-14 bg-white border border-slate-100 rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:bg-blue-600 group-hover:border-blue-600 transition-colors duration-300">
-                                    <Icon className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                                </div>
-                                
-                                <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-700 transition-colors">{service.title}</h3>
-                                <p className="text-slate-500 text-sm leading-relaxed mb-6">
-                                    {service.description}
-                                </p>
-
-                                <div className="flex items-center text-blue-600 font-bold text-xs uppercase tracking-wider opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                                    Learn More <ArrowUpRight className="w-3 h-3 ml-1" />
-                                </div>
-                            </div>
-                        </div>
-                    )
-                })}
-            </div>
-
-            {/* Bottom CTA / Banner */}
-            <div className="mt-20 bg-slate-900 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-2xl">
-                 <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay"></div>
-                 {/* Glow effects */}
-                 <div className="absolute top-1/2 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2"></div>
-                 <div className="absolute bottom-0 right-0 w-64 h-64 bg-lime-500/20 rounded-full blur-3xl translate-y-1/3 translate-x-1/3"></div>
-
-                 <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-                     <div>
-                         <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Ready to elevate your career?</h3>
-                         <p className="text-slate-400">Join a team that treats you like family.</p>
-                     </div>
-                     <button 
-                        onClick={scrollToContact}
-                        className="px-8 py-4 bg-lime-500 hover:bg-lime-400 text-slate-900 font-bold rounded-xl transition-all hover:scale-105 shadow-[0_0_20px_rgba(132,204,22,0.4)] whitespace-nowrap"
-                     >
-                         Get Represented
-                     </button>
-                 </div>
-            </div>
+          </div>
         </div>
+
+        {/* Tactical Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service, index) => {
+            const Icon = IconMap[service.iconName];
+            const delayClass =
+              index === 0
+                ? ""
+                : index === 1
+                ? "delay-100"
+                : index === 2
+                ? "delay-200"
+                : "delay-300";
+            return (
+              <div
+                key={service.id}
+                className={`group relative bg-white rounded-xl p-8 border border-slate-200 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden shadow-sm hover:shadow-xl reveal-on-scroll ${delayClass} ${
+                  isVisible ? "is-visible" : ""
+                }`}
+              >
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+
+                <div className="absolute -bottom-6 -right-6 text-[120px] font-black text-slate-100 leading-none select-none group-hover:text-emerald-50/80 transition-colors duration-500 font-mono italic">
+                  0{index + 1}
+                </div>
+
+                <div className="relative z-10">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="w-12 h-12 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:border-emerald-500/50 group-hover:bg-emerald-50 transition-all duration-300">
+                      <Icon className="w-6 h-6 text-slate-400 group-hover:text-emerald-600 transition-colors duration-300" />
+                    </div>
+                    <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-emerald-500 transition-colors" />
+                  </div>
+
+                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-emerald-700 transition-colors uppercase tracking-wide italic">
+                    {service.title}
+                  </h3>
+                  <p className="text-slate-600 text-sm leading-relaxed border-l-2 border-slate-100 pl-3 group-hover:border-emerald-500/30 transition-colors">
+                    {service.description}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Bottom CTA Banner */}
+        <div
+          className={`mt-20 reveal-on-scroll delay-300 ${
+            isVisible ? "is-visible" : ""
+          }`}
+        >
+          <div
+            className="relative bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-1 overflow-hidden group cursor-pointer shadow-2xl"
+            onClick={scrollToContact}
+          >
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 mix-blend-multiply"></div>
+
+            <div className="bg-teal-950/90 backdrop-blur-md rounded-xl p-8 md:p-12 relative overflow-hidden transition-colors group-hover:bg-teal-950/80">
+              <div className="absolute top-0 bottom-0 w-32 bg-white/5 skew-x-[-20deg] blur-xl -left-40 group-hover:left-[120%] transition-all duration-1000 ease-in-out"></div>
+
+              <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+                <div className="text-center md:text-left">
+                  <h3 className="text-2xl md:text-3xl font-black text-white uppercase italic tracking-tight mb-2">
+                    Ready to turn Pro?
+                  </h3>
+                  <p className="text-emerald-200/80 font-medium">
+                    Let’s go together through all big moments!
+                  </p>
+                </div>
+
+                <button className="px-10 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black uppercase tracking-wider text-sm skew-x-[-10deg] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                  <div className="skew-x-[10deg] flex items-center gap-2">
+                    Get Represented <ArrowUpRight className="w-4 h-4" />
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

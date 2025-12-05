@@ -1,0 +1,155 @@
+import React, { useEffect, useState } from 'react';
+
+interface LoaderProps {
+  onFinish: () => void;
+}
+
+const Loader: React.FC<LoaderProps> = ({ onFinish }) => {
+  const [isExiting, setIsExiting] = useState(false);
+  
+  useEffect(() => {
+    // Total load time
+    const loadTimer = setTimeout(() => {
+      setIsExiting(true);
+      // Wait for slide animation to complete before unmounting
+      setTimeout(onFinish, 1000); 
+    }, 2800);
+
+    return () => clearTimeout(loadTimer);
+  }, [onFinish]);
+
+  return (
+    <div className={`fixed inset-0 z-[100] bg-teal-950 flex flex-col items-center justify-center overflow-hidden transition-transform duration-[1000ms] cubic-bezier(0.76, 0, 0.24, 1) ${isExiting ? '-translate-y-full' : 'translate-y-0'}`}>
+      
+      {/* --- Background: 2D Tactical Pitch Blueprint --- */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+         {/* Full Pitch SVG */}
+         <svg 
+            viewBox="-5 0 115 68" 
+            className="w-[140vw] h-[90vw] md:w-[800px] md:h-[500px] stroke-emerald-100 fill-none stroke-[0.5]"
+            style={{ transform: 'rotate(0deg)' }} 
+         >
+            <defs>
+                <pattern id="netPattern" x="0" y="0" width="1" height="1" patternUnits="userSpaceOnUse">
+                    <path d="M 1 0 L 0 1" stroke="currentColor" strokeWidth="0.2" opacity="0.5" />
+                    <path d="M 0 0 L 1 1" stroke="currentColor" strokeWidth="0.2" opacity="0.5" />
+                </pattern>
+            </defs>
+
+            {/* Outer Boundary & Center Line */}
+            <path d="M 0 0 L 105 0 L 105 68 L 0 68 Z" className="opacity-0 animate-[draw_2s_ease-out_forwards]" />
+            <line x1="52.5" y1="0" x2="52.5" y2="68" className="opacity-0 animate-[draw_2s_ease-out_forwards_0.2s]" />
+            
+            {/* Center Circle */}
+            <circle cx="52.5" cy="34" r="9.15" className="opacity-0 animate-[draw_2s_ease-out_forwards_0.4s]" />
+            <circle cx="52.5" cy="34" r="0.6" fill="currentColor" className="opacity-0 animate-[fade-in_0.5s_ease-out_forwards_0.5s]" />
+
+            {/* Left Penalty Area */}
+            <path d="M 0 13.84 L 16.5 13.84 L 16.5 54.16 L 0 54.16" className="opacity-0 animate-[draw_2s_ease-out_forwards_0.6s]" />
+            {/* Left Goal Area */}
+            <path d="M 0 24.84 L 5.5 24.84 L 5.5 43.16 L 0 43.16" className="opacity-0 animate-[draw_2s_ease-out_forwards_0.7s]" />
+            
+            {/* Left Penalty Spot & Arc */}
+            <circle cx="11" cy="34" r="0.6" fill="currentColor" className="opacity-0 animate-[fade-in_0.5s_ease-out_forwards_0.8s]" />
+            <path d="M 16.5,26.5 A 9.15,9.15 0 0,1 16.5,41.5" className="opacity-0 animate-[draw_2s_ease-out_forwards_0.8s]" />
+            
+            {/* Left Goal Net */}
+            <g className="opacity-0 animate-[fade-in_1s_ease-out_forwards_1s]">
+                <rect x="-2.44" y="30.34" width="2.44" height="7.32" strokeWidth="0.3" fill="url(#netPattern)" />
+            </g>
+
+            {/* Right Penalty Area */}
+            <path d="M 105 13.84 L 88.5 13.84 L 88.5 54.16 L 105 54.16" className="opacity-0 animate-[draw_2s_ease-out_forwards_0.6s]" />
+            {/* Right Goal Area */}
+            <path d="M 105 24.84 L 99.5 24.84 L 99.5 43.16 L 105 43.16" className="opacity-0 animate-[draw_2s_ease-out_forwards_0.7s]" />
+            
+            {/* Right Penalty Spot & Arc */}
+            <circle cx="94" cy="34" r="0.6" fill="currentColor" className="opacity-0 animate-[fade-in_0.5s_ease-out_forwards_0.8s]" />
+            <path d="M 88.5,26.5 A 9.15,9.15 0 0,0 88.5,41.5" className="opacity-0 animate-[draw_2s_ease-out_forwards_0.8s]" />
+
+            {/* Right Goal Net */}
+            <g className="opacity-0 animate-[fade-in_1s_ease-out_forwards_1s]">
+                <rect x="105" y="30.34" width="2.44" height="7.32" strokeWidth="0.3" fill="url(#netPattern)" />
+            </g>
+
+            {/* Corner Arcs */}
+            <path d="M 0,1 A 1,1 0 0,0 1,0" className="opacity-0 animate-[draw_2s_ease-out_forwards_1s]" />
+            <path d="M 0,67 A 1,1 0 0,1 1,68" className="opacity-0 animate-[draw_2s_ease-out_forwards_1s]" />
+            <path d="M 105,1 A 1,1 0 0,1 104,0" className="opacity-0 animate-[draw_2s_ease-out_forwards_1s]" />
+            <path d="M 105,67 A 1,1 0 0,0 104,68" className="opacity-0 animate-[draw_2s_ease-out_forwards_1s]" />
+         </svg>
+      </div>
+
+      <div className="relative z-10 flex flex-col items-center justify-center">
+        
+        {/* 3D Spinning Ball Container */}
+        <div className="relative w-32 h-32 mb-8">
+            {/* The Ball Sphere */}
+            <div className="w-full h-full rounded-full bg-slate-100 overflow-hidden relative shadow-[0_0_40px_rgba(16,185,129,0.3)] border border-slate-300">
+                
+                {/* Rolling Texture (Simulates 3D Spin) */}
+                <div className="absolute top-0 left-0 h-full w-[200%] flex items-center animate-[spin-texture_2s_linear_infinite]">
+                    {/* Pattern repeated twice for seamless loop */}
+                    <div className="w-1/2 h-full relative">
+                        {/* Hexagon Pattern 1 */}
+                        <svg viewBox="0 0 100 100" className="w-full h-full opacity-90" preserveAspectRatio="none">
+                            <pattern id="hex" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+                                <path d="M10,0 L20,5 L20,15 L10,20 L0,15 L0,5 Z" fill="none" stroke="#0f172a" strokeWidth="2" />
+                                <path d="M10,5 L15,10 L10,15 L5,10 Z" fill="#0f172a" opacity="0.9" />
+                            </pattern>
+                            <rect width="100%" height="100%" fill="url(#hex)" />
+                        </svg>
+                    </div>
+                    <div className="w-1/2 h-full relative">
+                        {/* Hexagon Pattern 2 (Duplicate) */}
+                        <svg viewBox="0 0 100 100" className="w-full h-full opacity-90" preserveAspectRatio="none">
+                            <rect width="100%" height="100%" fill="url(#hex)" />
+                        </svg>
+                    </div>
+                </div>
+
+                {/* Lighting / Depth Overlay (Inset Shadow + Gloss) */}
+                <div className="absolute inset-0 rounded-full shadow-[inset_-10px_-10px_20px_rgba(0,0,0,0.6),inset_10px_10px_20px_rgba(255,255,255,0.8)] pointer-events-none"></div>
+                <div className="absolute top-3 left-3 w-10 h-5 bg-white/40 rounded-full blur-sm transform -rotate-45 pointer-events-none"></div>
+            </div>
+
+            {/* Ground Shadow */}
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-28 h-4 bg-black/60 blur-lg rounded-[50%]"></div>
+        </div>
+
+        {/* Brand Text */}
+        <div className="text-center relative">
+            <h1 className="text-4xl font-black text-white uppercase italic tracking-tighter mb-3 drop-shadow-2xl">
+                Big Moments
+            </h1>
+            {/* Loading Indicator Bar */}
+            <div className="h-1 w-24 bg-teal-900 mx-auto rounded-full overflow-hidden border border-white/10">
+                <div className="h-full bg-emerald-500 animate-[loading-bar_2s_ease-in-out_infinite]"></div>
+            </div>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes spin-texture {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes draw {
+          from { stroke-dasharray: 500; stroke-dashoffset: 500; opacity: 0; }
+          to { stroke-dasharray: 500; stroke-dashoffset: 0; opacity: 1; }
+        }
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes loading-bar {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(0%); }
+            100% { transform: translateX(100%); }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default Loader;

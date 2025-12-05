@@ -1,74 +1,143 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SectionId } from "../types";
-import { Phone, Mail, ArrowRight } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  ArrowRight,
+  MessageSquare,
+  CheckCircle2,
+} from "lucide-react";
 
 const Contact: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setIsVisible(true);
+      },
+      { threshold: 0.2 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id={SectionId.CONTACT}
-      className="py-24 bg-slate-900 relative overflow-hidden"
+      className="py-24 bg-teal-950 relative overflow-hidden border-b border-white/5"
     >
-      {/* Background Decor */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-lime-500/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
+      {/* Background Texture - Dark "Carbon Fiber" feel */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+      </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        <h2 className="text-3xl md:text-4xl font-black text-white mb-16 tracking-tight uppercase">
-          Get In Touch<span className="text-lime-500">.</span>
-        </h2>
+      {/* Lighting Effects */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-emerald-900/20 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/2" />
 
-        {/* Profile Card */}
-        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group hover:border-blue-500/30 transition-colors duration-500">
-          {/* Hover Glow */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl -mr-16 -mt-16 transition-opacity duration-500 opacity-50 group-hover:opacity-100" />
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div
+          className={`text-center mb-16 reveal-on-scroll ${
+            isVisible ? "is-visible" : ""
+          }`}
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-teal-900/50 border border-teal-800 text-emerald-400 font-bold text-xs uppercase tracking-[0.2em] mb-6">
+            <MessageSquare className="w-3 h-3" />
+            Direct Line
+          </div>
+          <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter leading-[0.9]">
+            Ready to{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400 pr-4 inline-block">
+              Sign?
+            </span>
+          </h2>
+        </div>
 
-          <div className="flex flex-col items-center">
-            <div className="relative mb-8">
-              <div className="w-28 h-28 rounded-full p-1 bg-gradient-to-br from-blue-500 to-lime-500 shadow-xl shadow-blue-500/20">
-                <img
-                  src="/images/milos-manojlovic.png"
-                  alt="Miloš Manojlović"
-                  className="w-full h-full rounded-full object-cover border-4 border-slate-800"
-                />
+        {/* The "Agent Card" */}
+        <div
+          className={`relative reveal-on-scroll delay-200 ${
+            isVisible ? "is-visible" : ""
+          }`}
+        >
+          {/* Card Border Glow */}
+          <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-[2.5rem] blur opacity-20"></div>
+
+          <div className="relative bg-teal-900/80 backdrop-blur-xl border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
+            <div className="grid md:grid-cols-5 gap-0">
+              {/* Left: Photo / Profile */}
+              <div className="md:col-span-2 bg-gradient-to-br from-teal-800 to-teal-950 relative p-8 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-white/5">
+                <div className="relative w-40 h-40 mb-6 group">
+                  <div className="absolute inset-0 bg-emerald-500 rounded-full blur-md opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                  <img
+                    src="https://placehold.co/400x400/0f172a/FFFFFF?text=MM"
+                    alt="Miloš Manojlović"
+                    className="w-full h-full rounded-full object-cover border-4 border-teal-700 relative z-10 shadow-xl"
+                  />
+                  <div className="absolute bottom-2 right-2 z-20 bg-emerald-500 text-white p-1 rounded-full border-2 border-teal-900">
+                    <CheckCircle2 className="w-4 h-4" />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-black text-white uppercase italic tracking-tight leading-none mb-1">
+                  Miloš Manojlović
+                </h3>
+                <p className="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-6">
+                  CEO & FOUNDER
+                </p>
               </div>
-              <div className="absolute bottom-0 right-0 bg-lime-500 text-slate-900 p-1.5 rounded-full border-4 border-slate-800">
-                <ArrowRight className="w-4 h-4" />
+
+              {/* Right: Contact Actions */}
+              <div className="md:col-span-3 p-8 md:p-12 flex flex-col justify-center">
+                <p className="text-slate-300 text-lg md:text-xl font-medium leading-relaxed mb-10">
+                  "Success in football is about timing. Don't wait for the
+                  opportunity - create it. Contact me directly and let's discuss
+                  your future."
+                </p>
+
+                <div className="space-y-4">
+                  <a
+                    href="mailto:info@bigmoments.com"
+                    className="group flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-emerald-500/50 rounded-xl transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-teal-950 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                        <Mail className="w-5 h-5" />
+                      </div>
+                      <div className="text-left">
+                        <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">
+                          Email Inquiry
+                        </div>
+                        <div className="text-white font-bold font-mono">
+                          info@bigmoments.com
+                        </div>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                  </a>
+
+                  <a
+                    href="tel:+381605007576"
+                    className="group flex items-center justify-between p-4 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-1 transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center text-white">
+                        <Phone className="w-5 h-5" />
+                      </div>
+                      <div className="text-left">
+                        <div className="text-[10px] text-emerald-100 uppercase tracking-wider font-bold">
+                          Call / WhatsApp
+                        </div>
+                        <div className="text-white font-bold font-mono">
+                          + 381 60 500 75 76
+                        </div>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-white/70 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                  </a>
+                </div>
               </div>
             </div>
-
-            <h3 className="text-3xl font-bold text-white mb-2">
-              Miloš Manojlović
-            </h3>
-            <p className="text-blue-400 font-bold uppercase tracking-widest text-xs mb-8">
-              CEO of Big-Moments.com
-            </p>
-
-            <p className="max-w-lg mx-auto text-slate-300 text-lg leading-relaxed mb-10">
-              We are building more than just careers; we are building legacies.
-              Whether you are a player, a partner, or a club representative, I
-              invite you to reach out directly.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
-              <a
-                href="mailto:info@bigmoments.com"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl transition-all border border-slate-600 hover:border-slate-500 group/btn"
-              >
-                <Mail className="w-5 h-5 text-lime-400 group-hover/btn:scale-110 transition-transform" />
-                info@bigmoments.com
-              </a>
-
-              <a
-                href="tel:+381605007576"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-lime-500 hover:bg-lime-400 text-slate-900 font-bold rounded-xl transition-all hover:scale-105 shadow-[0_0_20px_rgba(132,204,22,0.3)] hover:shadow-[0_0_30px_rgba(132,204,22,0.5)]"
-              >
-                <Phone className="w-5 h-5" />+ 381 60 500 75 76
-              </a>
-            </div>
-
-            <p className="mt-6 text-xs text-slate-500 font-bold uppercase tracking-wider">
-              Available for Instant Consultation
-            </p>
           </div>
         </div>
       </div>

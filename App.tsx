@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -6,20 +6,31 @@ import Roster from './components/Roster';
 import GlobalNetwork from './components/GlobalNetwork';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import Loader from './components/Loader';
 
 const App: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-lime-300 selection:text-blue-900">
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <Roster />
-        <GlobalNetwork />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <>
+      {isLoading && <Loader onFinish={() => setIsLoading(false)} />}
+      
+      {/* 
+        Main content is always rendered at full opacity. 
+        The loader sits on top (z-100) and slides away to reveal this content.
+      */}
+      <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-emerald-200 selection:text-teal-900">
+        <Navbar />
+        <main>
+          <Hero />
+          <Services />
+          <Roster />
+          <GlobalNetwork />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 };
 
