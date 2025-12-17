@@ -325,25 +325,43 @@ const Services: React.FC = () => {
           }`}
         >
           <div
-            className="relative bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-1 overflow-hidden group cursor-pointer shadow-2xl"
+            className="relative bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 rounded-2xl p-1 overflow-hidden group cursor-pointer"
             onClick={scrollToContact}
           >
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 mix-blend-multiply"></div>
+            {/* Animated gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 via-transparent to-teal-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
-            <div className="bg-teal-950/90 backdrop-blur-md rounded-xl p-8 md:p-12 relative overflow-hidden transition-colors group-hover:bg-teal-950/80">
+            {/* Diagonal stripes pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_20px,rgba(255,255,255,0.1)_20px,rgba(255,255,255,0.1)_40px)]"></div>
+            </div>
+
+            <div className="bg-gradient-to-br from-teal-950 via-teal-900 to-teal-950 backdrop-blur-md rounded-xl p-8 md:p-12 relative overflow-hidden">
+              {/* Multiple animated shine effects */}
               <div className="absolute top-0 bottom-0 w-32 bg-white/5 skew-x-[-20deg] blur-xl -left-40 group-hover:left-[120%] transition-all duration-1000 ease-in-out"></div>
+              <div className="absolute top-0 bottom-0 w-24 bg-emerald-400/10 skew-x-[-20deg] blur-2xl -left-32 group-hover:left-[120%] transition-all duration-1200 ease-in-out delay-100"></div>
+
+              {/* Glowing orbs */}
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl group-hover:bg-emerald-400/30 transition-all duration-700"></div>
+              <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-teal-500/20 rounded-full blur-3xl group-hover:bg-teal-400/30 transition-all duration-700"></div>
+
+              {/* Noise texture */}
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 mix-blend-overlay"></div>
+
+              {/* Radial gradient overlay */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.1),transparent_70%)]"></div>
 
               <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
                 <div className="text-center md:text-left">
-                  <h3 className="text-2xl md:text-3xl font-black text-white uppercase italic tracking-tight mb-2">
+                  <h3 className="text-2xl md:text-3xl font-black text-white uppercase italic tracking-tight mb-2 drop-shadow-lg">
                     Ready to turn Pro?
                   </h3>
-                  <p className="text-emerald-200/80 font-medium">
-                    Let’s go together through all big moments!
+                  <p className="text-emerald-200/90 font-medium">
+                    Let's go together through all big moments!
                   </p>
                 </div>
 
-                <button className="px-10 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black uppercase tracking-wider text-sm skew-x-[-10deg] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                <button className="px-10 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-black uppercase tracking-wider text-sm skew-x-[-10deg] shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-300 ease-in-out">
                   <div className="skew-x-[10deg] flex items-center gap-2">
                     Get Represented <ArrowUpRight className="w-4 h-4" />
                   </div>

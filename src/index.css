@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Tailwind v4 Custom Properties */
+@theme {
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Font fallbacks for better mobile support */
 body {
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
@@ -11,6 +17,16 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global smooth transitions - ensure all transitions use proper easing */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Ensure shadows transition smoothly */
+button, a, div {
+  transition-property: all;
 }
 
 /* Force Montserrat font to load with proper weights on all devices */

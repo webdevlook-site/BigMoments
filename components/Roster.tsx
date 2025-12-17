@@ -1,13 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SectionId, Player } from "../types";
-import {
-  Shield,
-  Target,
-  User,
-  MapPin,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { Shield, Target, User, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface EnhancedPlayer extends Player {
   dob: string;
@@ -52,9 +45,9 @@ const players: EnhancedPlayer[] = [
     age: 21,
     club: "Al-Wahda",
     imageUrl: "images/ogbu-1.webp",
-    images: ["images/ogbu-2.webp", "images/ogbu-1.webp", "images/ogbu-3.webp"],
-    dob: "2004",
-    jerseyNumber: 4,
+    images: ["images/ogbu-2.webp", "images/ogbu-4.webp", "images/ogbu-3.webp"],
+    dob: "26.06.2004.",
+    jerseyNumber: 30,
   },
 ];
 
@@ -158,7 +151,7 @@ const Roster: React.FC = () => {
         </div>
 
         {/* Player Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {players.map((player, index) => {
             const PositionIcon = getPositionIcon(player.position);
             const delayClass =
@@ -169,74 +162,79 @@ const Roster: React.FC = () => {
               <div
                 key={player.id}
                 onClick={() => handleCardClick(player.id)}
-                className={`group relative bg-teal-900 rounded-[2rem] p-1.5 transition-all duration-500 ease-in-out reveal-on-scroll cursor-pointer ${delayClass} ${
+                className={`group relative reveal-on-scroll cursor-pointer transition-transform duration-500 ease-in-out ${delayClass} ${
                   isVisible ? "is-visible" : ""
                 } ${
                   isActive
-                    ? "-translate-y-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
-                    : "hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                    ? "-translate-y-3"
+                    : "hover:-translate-y-3 active:-translate-y-3"
                 }`}
               >
-                {/* Card Border Gradient */}
-                <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/10 to-transparent opacity-50 pointer-events-none"></div>
-
-                <div
-                  className={`relative h-full bg-teal-950 rounded-[1.7rem] overflow-hidden border transition-colors duration-500 ease-in-out ${
-                    isActive
-                      ? "border-emerald-500/30"
-                      : "border-white/5 group-hover:border-emerald-500/30"
-                  }`}
-                >
-                  {/* Background Jersey Number */}
-                  <div className="absolute top-0 right-4 text-[180px] font-black text-white/5 leading-none z-0 font-mono italic select-none">
-                    {player.jerseyNumber}
-                  </div>
-
-                  {/* Player Image Container */}
-                  <div className="relative h-[450px] z-10">
+                {/* Main Card Container */}
+                <div className="relative h-[580px] rounded-3xl overflow-hidden bg-gradient-to-br from-teal-900/90 to-teal-950">
+                  {/* Image Section */}
+                  <div className="relative h-[390px] overflow-hidden">
+                    {/* Player Image */}
                     <img
                       src={player.images[currentImageIndex[player.id] || 0]}
                       alt={player.name}
-                      className={`w-full h-full object-cover transition-all duration-700 ease-in-out ${
+                      className={`w-full h-full object-cover object-top transition-all duration-700 ease-in-out ${
                         isActive
-                          ? "grayscale-0"
-                          : "grayscale group-hover:grayscale-0"
+                          ? "scale-105 grayscale-0"
+                          : "scale-100 grayscale group-hover:scale-105 group-hover:grayscale-0 group-active:scale-105 group-active:grayscale-0"
                       }`}
                     />
-                    {/* Gradient for text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/40 to-transparent"></div>
 
-                    {/* Image Navigation - Only show if multiple images */}
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-teal-950"></div>
+
+                    {/* Position Badge */}
+                    <div className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/95 backdrop-blur-sm shadow-lg">
+                      <PositionIcon className="w-4 h-4 text-teal-950" />
+                      <span className="text-xs font-bold text-teal-950 uppercase tracking-wide">
+                        {player.position}
+                      </span>
+                    </div>
+
+                    {/* Image Navigation */}
                     {player.images.length > 1 && (
                       <>
                         <button
                           onClick={(e) =>
                             handlePrevImage(e, player.id, player.images.length)
                           }
-                          className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-teal-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-emerald-600 transition-colors z-20 opacity-0 group-hover:opacity-100"
+                          className={`absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all duration-300 ease-in-out z-20 ${
+                            isActive
+                              ? "opacity-100"
+                              : "opacity-0 group-hover:opacity-100 group-active:opacity-100"
+                          } hover:bg-emerald-500 hover:border-emerald-400`}
                           aria-label="Previous image"
                         >
-                          <ChevronLeft className="w-4 h-4" />
+                          <ChevronLeft className="w-5 h-5" />
                         </button>
                         <button
                           onClick={(e) =>
                             handleNextImage(e, player.id, player.images.length)
                           }
-                          className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-teal-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-emerald-600 transition-colors z-20 opacity-0 group-hover:opacity-100"
+                          className={`absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all duration-300 ease-in-out z-20 ${
+                            isActive
+                              ? "opacity-100"
+                              : "opacity-0 group-hover:opacity-100 group-active:opacity-100"
+                          } hover:bg-emerald-500 hover:border-emerald-400`}
                           aria-label="Next image"
                         >
-                          <ChevronRight className="w-4 h-4" />
+                          <ChevronRight className="w-5 h-5" />
                         </button>
 
                         {/* Image Indicators */}
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
                           {player.images.map((_, imgIndex) => (
                             <div
                               key={imgIndex}
-                              className={`w-1.5 h-1.5 rounded-full transition-all ${
+                              className={`h-1 rounded-full transition-all duration-300 ${
                                 imgIndex === (currentImageIndex[player.id] || 0)
-                                  ? "bg-emerald-500 w-4"
-                                  : "bg-white/40"
+                                  ? "bg-emerald-500 w-8"
+                                  : "bg-white/50 w-1"
                               }`}
                             />
                           ))}
@@ -245,38 +243,81 @@ const Roster: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Player Info Overlay */}
-                  <div className="absolute bottom-0 left-0 w-full p-8 z-20">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center text-teal-950 shadow-lg shadow-emerald-500/20">
-                        <PositionIcon className="w-3 h-3" />
-                      </div>
-                      <div>
-                        <div className="text-white font-bold uppercase tracking-widest text-[10px] leading-tight opacity-70">
-                          {player.position}
-                        </div>
-                        <div className="text-white font-bold text-sm leading-tight flex items-center gap-1.5">
-                          <MapPin className="w-3 h-3 text-emerald-400" />
-                          {player.club}
-                        </div>
-                      </div>
+                  {/* Info Section */}
+                  <div className="relative h-[190px] bg-gradient-to-b from-teal-950 to-teal-950 p-5">
+                    {/* Decorative Line */}
+                    <div className="absolute top-0 left-5 right-5 h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent"></div>
+
+                    {/* Club Info */}
+                    <div className="flex items-center gap-2 mb-3">
+                      <Shield className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-xs font-bold text-slate-300 uppercase tracking-wide">
+                        {player.club}
+                      </span>
                     </div>
 
-                    <h3 className="text-2xl md:text-3xl font-black text-white uppercase italic tracking-tight leading-[0.85] mb-2">
+                    {/* Player Name */}
+                    <h3 className="font-heading text-2xl md:text-3xl font-black text-white uppercase italic tracking-tighter leading-[0.85] mb-4">
                       {player.name}
                     </h3>
 
-                    <div className="w-full h-[1px] bg-gradient-to-r from-emerald-500/50 to-transparent mt-4 mb-2"></div>
+                    {/* Stats Row */}
+                    <div className="flex items-center justify-between">
+                      {/* Age */}
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-0.5">
+                          Age
+                        </span>
+                        <span className="text-xl font-black text-white font-mono">
+                          {player.age}
+                        </span>
+                      </div>
 
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                        {player.age} Years Old
-                      </span>
-                      <span className="font-mono text-emerald-400 font-bold text-lg">
-                        #{player.jerseyNumber}
-                      </span>
+                      {/* Vertical Divider */}
+                      <div className="h-10 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+
+                      {/* DOB */}
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-0.5">
+                          Born
+                        </span>
+                        <span className="text-base font-bold text-emerald-400">
+                          {player.dob}
+                        </span>
+                      </div>
+
+                      {/* Vertical Divider */}
+                      <div className="h-10 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+
+                      {/* Jersey */}
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-0.5">
+                          Number
+                        </span>
+                        <span className="text-xl font-black text-emerald-400 font-mono">
+                          #{player.jerseyNumber}
+                        </span>
+                      </div>
                     </div>
+
+                    {/* Accent Line */}
+                    <div
+                      className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-500 ease-in-out ${
+                        isActive
+                          ? "w-full"
+                          : "w-0 group-hover:w-full group-active:w-full"
+                      }`}
+                    ></div>
                   </div>
+
+                  {/* Card Border Glow Effect */}
+                  <div
+                    className={`absolute inset-0 rounded-3xl border-2 transition-all duration-500 ease-in-out pointer-events-none ${
+                      isActive
+                        ? "border-emerald-500/60 shadow-[0_0_30px_rgba(16,185,129,0.3)]"
+                        : "border-white/5 group-hover:border-emerald-500/60 group-hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] group-active:border-emerald-500/60 group-active:shadow-[0_0_30px_rgba(16,185,129,0.3)]"
+                    }`}
+                  ></div>
                 </div>
               </div>
             );
