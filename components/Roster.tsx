@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SectionId, Player } from "../types";
-import { Shield, Target, User, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Shield,
+  Target,
+  User,
+  MapPin,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 interface EnhancedPlayer extends Player {
   dob: string;
@@ -18,7 +25,7 @@ const players: EnhancedPlayer[] = [
     imageUrl: "https://placehold.co/600x800/0f172a/FFFFFF?text=Player+1",
     images: [
       "https://placehold.co/600x800/0f172a/FFFFFF?text=Player+1",
-      "https://placehold.co/600x800/0f172a/FFFFFF?text=Player+1-2"
+      "https://placehold.co/600x800/0f172a/FFFFFF?text=Player+1-2",
     ],
     dob: "10.07.2003",
     jerseyNumber: 9,
@@ -33,7 +40,7 @@ const players: EnhancedPlayer[] = [
     imageUrl: "https://placehold.co/600x800/0f172a/FFFFFF?text=Player+2",
     images: [
       "https://placehold.co/600x800/0f172a/FFFFFF?text=Player+2",
-      "https://placehold.co/600x800/0f172a/FFFFFF?text=Player+2-2"
+      "https://placehold.co/600x800/0f172a/FFFFFF?text=Player+2-2",
     ],
     dob: "06.08.2004",
     jerseyNumber: 11,
@@ -44,10 +51,11 @@ const players: EnhancedPlayer[] = [
     position: "Centre-back",
     age: 21,
     club: "Al-Wahda",
-    imageUrl: "https://placehold.co/600x800/0f172a/FFFFFF?text=Favour+Ogbu",
+    imageUrl: "public/images/ogbu-1.webp",
     images: [
-      "https://placehold.co/600x800/0f172a/FFFFFF?text=Favour+Ogbu",
-      "https://placehold.co/600x800/0f172a/FFFFFF?text=Favour+Ogbu-2"
+      "public/images/ogbu-2.webp",
+      "public/images/ogbu-1.webp",
+      "public/images/ogbu-3.webp",
     ],
     dob: "2004",
     jerseyNumber: 4,
@@ -70,7 +78,9 @@ const Roster: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [activeCard, setActiveCard] = useState<number | null>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState<{ [key: number]: number }>({});
+  const [currentImageIndex, setCurrentImageIndex] = useState<{
+    [key: number]: number;
+  }>({});
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -87,19 +97,27 @@ const Roster: React.FC = () => {
     setActiveCard(activeCard === id ? null : id);
   };
 
-  const handlePrevImage = (e: React.MouseEvent, playerId: number, totalImages: number) => {
+  const handlePrevImage = (
+    e: React.MouseEvent,
+    playerId: number,
+    totalImages: number
+  ) => {
     e.stopPropagation();
-    setCurrentImageIndex(prev => ({
+    setCurrentImageIndex((prev) => ({
       ...prev,
-      [playerId]: ((prev[playerId] || 0) - 1 + totalImages) % totalImages
+      [playerId]: ((prev[playerId] || 0) - 1 + totalImages) % totalImages,
     }));
   };
 
-  const handleNextImage = (e: React.MouseEvent, playerId: number, totalImages: number) => {
+  const handleNextImage = (
+    e: React.MouseEvent,
+    playerId: number,
+    totalImages: number
+  ) => {
     e.stopPropagation();
-    setCurrentImageIndex(prev => ({
+    setCurrentImageIndex((prev) => ({
       ...prev,
-      [playerId]: ((prev[playerId] || 0) + 1) % totalImages
+      [playerId]: ((prev[playerId] || 0) + 1) % totalImages,
     }));
   };
 
@@ -166,9 +184,13 @@ const Roster: React.FC = () => {
                 {/* Card Border Gradient */}
                 <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/10 to-transparent opacity-50 pointer-events-none"></div>
 
-                <div className={`relative h-full bg-teal-950 rounded-[1.7rem] overflow-hidden border transition-colors duration-500 ease-in-out ${
-                  isActive ? "border-emerald-500/30" : "border-white/5 group-hover:border-emerald-500/30"
-                }`}>
+                <div
+                  className={`relative h-full bg-teal-950 rounded-[1.7rem] overflow-hidden border transition-colors duration-500 ease-in-out ${
+                    isActive
+                      ? "border-emerald-500/30"
+                      : "border-white/5 group-hover:border-emerald-500/30"
+                  }`}
+                >
                   {/* Background Jersey Number */}
                   <div className="absolute top-0 right-4 text-[180px] font-black text-white/5 leading-none z-0 font-mono italic select-none">
                     {player.jerseyNumber}
@@ -180,7 +202,9 @@ const Roster: React.FC = () => {
                       src={player.images[currentImageIndex[player.id] || 0]}
                       alt={player.name}
                       className={`w-full h-full object-cover transition-all duration-700 ease-in-out ${
-                        isActive ? "grayscale-0" : "grayscale group-hover:grayscale-0"
+                        isActive
+                          ? "grayscale-0"
+                          : "grayscale group-hover:grayscale-0"
                       }`}
                     />
                     {/* Gradient for text readability */}
@@ -190,14 +214,18 @@ const Roster: React.FC = () => {
                     {player.images.length > 1 && (
                       <>
                         <button
-                          onClick={(e) => handlePrevImage(e, player.id, player.images.length)}
+                          onClick={(e) =>
+                            handlePrevImage(e, player.id, player.images.length)
+                          }
                           className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-teal-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-emerald-600 transition-colors z-20 opacity-0 group-hover:opacity-100"
                           aria-label="Previous image"
                         >
                           <ChevronLeft className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={(e) => handleNextImage(e, player.id, player.images.length)}
+                          onClick={(e) =>
+                            handleNextImage(e, player.id, player.images.length)
+                          }
                           className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-teal-900/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-emerald-600 transition-colors z-20 opacity-0 group-hover:opacity-100"
                           aria-label="Next image"
                         >
