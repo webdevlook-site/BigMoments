@@ -29,7 +29,7 @@ const Loader: React.FC<LoaderProps> = ({ onFinish }) => {
         {/* Full Pitch SVG */}
         <svg
           viewBox="-5 0 115 68"
-          className="w-[140vw] h-[90vw] md:w-[800px] md:h-[500px] stroke-emerald-100 fill-none stroke-[0.5]"
+          className="w-[140vw] h-[90vw] md:w-[800px] md:h-[500px] stroke-white fill-none stroke-[0.5]"
           style={{ transform: "rotate(0deg)" }}
         >
           <defs>
@@ -177,88 +177,30 @@ const Loader: React.FC<LoaderProps> = ({ onFinish }) => {
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center">
-        {/* 3D Spinning Ball Container */}
-        <div className="relative w-32 h-32 mb-8">
-          {/* The Ball Sphere */}
-          <div className="w-full h-full rounded-full bg-slate-100 overflow-hidden relative shadow-[0_0_40px_rgba(16,185,129,0.3)] border border-slate-300">
-            {/* Rolling Texture (Simulates 3D Spin) */}
-            <div className="absolute top-0 left-0 h-full w-[200%] flex items-center animate-[spin-texture_2s_linear_infinite]">
-              <svg
-                className="w-full h-full opacity-90"
-                viewBox="0 0 200 100"
-                preserveAspectRatio="none"
-              >
-                <defs>
-                  {/* Seamless football-style hex/pent pattern */}
-                  <pattern
-                    id="footballPattern"
-                    x="0"
-                    y="0"
-                    width="30"
-                    height="30"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    {/* Main hexagon */}
-                    <polygon
-                      points="15,1 28,8 28,22 15,29 2,22 2,8"
-                      fill="none"
-                      stroke="#0f172a"
-                      strokeWidth="1.5"
-                    />
+        {/* Brand Text - Simplified */}
+        <div className="text-center relative">
+          {/* Main Title */}
+          <div className="relative mb-8">
+            <h1 className="font-heading text-4xl md:text-5xl font-black text-white uppercase italic tracking-tight">
+              Big Moments
+            </h1>
 
-                    {/* Inner pentagon (football style) */}
-                    <polygon
-                      points="15,6 21,10 19,17 11,17 9,10"
-                      fill="#0f172a"
-                      opacity="0.9"
-                    />
-                  </pattern>
-                </defs>
-
-                {/* Double rectangle for seamless horizontal looping */}
-                <rect
-                  x="0"
-                  y="0"
-                  width="100%"
-                  height="100%"
-                  fill="url(#footballPattern)"
-                />
-                <rect
-                  x="100%"
-                  y="0"
-                  width="100%"
-                  height="100%"
-                  fill="url(#footballPattern)"
-                />
-              </svg>
-            </div>
-
-            {/* Lighting / Depth Overlay (Inset Shadow + Gloss) */}
-            <div className="absolute inset-0 rounded-full shadow-[inset_-10px_-10px_20px_rgba(0,0,0,0.6),inset_10px_10px_20px_rgba(255,255,255,0.8)] pointer-events-none"></div>
-            <div className="absolute top-3 left-3 w-10 h-5 bg-white/40 rounded-full blur-sm transform -rotate-45 pointer-events-none"></div>
+            {/* Subtitle */}
+            <p className="mt-3 text-emerald-200/70 text-xs md:text-sm font-medium tracking-[0.3em] uppercase animate-[fade-in_1s_ease-out_forwards_0.5s] opacity-0">
+              Sport Management Agency
+            </p>
           </div>
 
-          {/* Ground Shadow */}
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-28 h-4 bg-black/60 blur-lg rounded-[50%]"></div>
-        </div>
-
-        {/* Brand Text */}
-        <div className="text-center relative">
-          <h1 className="text-4xl font-black text-white uppercase italic tracking-tighter mb-3 drop-shadow-2xl">
-            Big Moments
-          </h1>
-          {/* Loading Indicator Bar */}
-          <div className="h-1 w-24 bg-teal-900 mx-auto rounded-full overflow-hidden border border-white/10">
-            <div className="h-full bg-emerald-500 animate-[loading-bar_2s_ease-in-out_infinite]"></div>
+          {/* Loading Dots Only */}
+          <div className="flex justify-center gap-2">
+            <div className="w-2 h-2 bg-emerald-200/70 rounded-full animate-[bounce_1s_ease-in-out_infinite]"></div>
+            <div className="w-2 h-2 bg-emerald-200/70 rounded-full animate-[bounce_1s_ease-in-out_infinite_0.2s]" style={{ animationDelay: '0.2s' }}></div>
+            <div className="w-2 h-2 bg-emerald-200/70 rounded-full animate-[bounce_1s_ease-in-out_infinite_0.4s]" style={{ animationDelay: '0.4s' }}></div>
           </div>
         </div>
       </div>
 
       <style>{`
-        @keyframes spin-texture {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
         @keyframes draw {
           from { stroke-dasharray: 500; stroke-dashoffset: 500; opacity: 0; }
           to { stroke-dasharray: 500; stroke-dashoffset: 0; opacity: 1; }
@@ -271,6 +213,22 @@ const Loader: React.FC<LoaderProps> = ({ onFinish }) => {
             0% { transform: translateX(-100%); }
             50% { transform: translateX(0%); }
             100% { transform: translateX(100%); }
+        }
+        @keyframes text-glow {
+          0%, 100% {
+            filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.5));
+          }
+          50% {
+            filter: drop-shadow(0 0 40px rgba(16, 185, 129, 0.8));
+          }
+        }
+        @keyframes bounce {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
         }
       `}</style>
     </div>

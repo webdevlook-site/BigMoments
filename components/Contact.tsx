@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { SectionId } from "../types";
 import {
   Phone,
@@ -9,23 +9,8 @@ import {
 } from "lucide-react";
 
 const Contact: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
-      },
-      { threshold: 0.2 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section
-      ref={sectionRef}
       id={SectionId.CONTACT}
       className="py-24 bg-teal-950 relative overflow-hidden border-b border-white/5"
     >
@@ -38,16 +23,12 @@ const Contact: React.FC = () => {
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-emerald-900/20 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/2" />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div
-          className={`text-center mb-16 reveal-on-scroll ${
-            isVisible ? "is-visible" : ""
-          }`}
-        >
+        <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-teal-900/50 border border-teal-800 text-emerald-400 font-bold text-xs uppercase tracking-[0.2em] mb-6">
             <MessageSquare className="w-3 h-3" />
             Direct Line
           </div>
-          <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter leading-[0.9]">
+          <h2 className="font-heading text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter leading-[0.9]">
             Ready to{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400 pr-4 inline-block">
               Sign?
@@ -56,11 +37,7 @@ const Contact: React.FC = () => {
         </div>
 
         {/* The "Agent Card" */}
-        <div
-          className={`relative reveal-on-scroll delay-200 ${
-            isVisible ? "is-visible" : ""
-          }`}
-        >
+        <div className="relative">
           {/* Card Border Glow */}
           <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-[2.5rem] blur opacity-20"></div>
 
@@ -71,7 +48,7 @@ const Contact: React.FC = () => {
                 <div className="relative w-40 h-40 mb-6 group">
                   <div className="absolute inset-0 bg-emerald-500 rounded-full blur-md opacity-20 group-hover:opacity-40 transition-opacity"></div>
                   <img
-                    src="https://placehold.co/400x400/0f172a/FFFFFF?text=MM"
+                    src="public/images/milos-manojlovic.png"
                     alt="Miloš Manojlović"
                     className="w-full h-full rounded-full object-cover border-4 border-teal-700 relative z-10 shadow-xl"
                   />

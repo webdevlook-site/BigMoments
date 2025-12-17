@@ -70,6 +70,7 @@ const IconMap: Record<string, React.ElementType> = {
 const Services: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [activeCard, setActiveCard] = useState<number | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -87,6 +88,10 @@ const Services: React.FC = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  const handleCardClick = (id: number) => {
+    setActiveCard(activeCard === id ? null : id);
+  };
 
   const scrollToContact = () => {
     document
@@ -118,7 +123,7 @@ const Services: React.FC = () => {
               <Layout className="w-3 h-3" />
               Our Philosophy
             </div>
-            <h2 className="text-4xl sm:text-5xl font-black text-slate-900 leading-[0.9] mb-8 uppercase italic tracking-tight">
+            <h2 className="font-heading text-4xl sm:text-5xl font-black text-slate-900 leading-[0.9] mb-8 uppercase italic tracking-tight">
               More Than Just <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
                 An Agency.
@@ -227,31 +232,53 @@ const Services: React.FC = () => {
                 : index === 2
                 ? "delay-200"
                 : "delay-300";
+            const isActive = activeCard === service.id;
             return (
               <div
                 key={service.id}
-                className={`group relative bg-white rounded-xl p-8 border border-slate-200 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden shadow-sm hover:shadow-xl reveal-on-scroll ${delayClass} ${
+                onClick={() => handleCardClick(service.id)}
+                className={`group relative bg-white rounded-xl p-8 border border-slate-200 transition-all duration-300 ease-in-out overflow-hidden shadow-sm reveal-on-scroll cursor-pointer ${delayClass} ${
                   isVisible ? "is-visible" : ""
+                } ${
+                  isActive
+                    ? "border-emerald-500/50 -translate-y-1 shadow-xl"
+                    : "hover:border-emerald-500/50 hover:-translate-y-1 hover:shadow-xl"
                 }`}
               >
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-500 transform transition-transform duration-300 ease-in-out origin-left ${
+                  isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                }`}></div>
 
-                <div className="absolute -bottom-6 -right-6 text-[120px] font-black text-slate-100 leading-none select-none group-hover:text-emerald-50/80 transition-colors duration-500 font-mono italic">
+                <div className={`absolute -bottom-6 -right-6 text-[120px] font-black leading-none select-none transition-colors duration-500 ease-in-out font-mono italic ${
+                  isActive ? "text-emerald-50/80" : "text-slate-100 group-hover:text-emerald-50/80"
+                }`}>
                   0{index + 1}
                 </div>
 
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-6">
-                    <div className="w-12 h-12 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:border-emerald-500/50 group-hover:bg-emerald-50 transition-all duration-300">
-                      <Icon className="w-6 h-6 text-slate-400 group-hover:text-emerald-600 transition-colors duration-300" />
+                    <div className={`w-12 h-12 rounded-lg bg-slate-50 border flex items-center justify-center transition-all duration-300 ease-in-out ${
+                      isActive
+                        ? "border-emerald-500/50 bg-emerald-50"
+                        : "border-slate-100 group-hover:border-emerald-500/50 group-hover:bg-emerald-50"
+                    }`}>
+                      <Icon className={`w-6 h-6 transition-colors duration-300 ease-in-out ${
+                        isActive ? "text-emerald-600" : "text-slate-400 group-hover:text-emerald-600"
+                      }`} />
                     </div>
-                    <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-emerald-500 transition-colors" />
+                    <ArrowUpRight className={`w-5 h-5 transition-colors duration-300 ease-in-out ${
+                      isActive ? "text-emerald-500" : "text-slate-300 group-hover:text-emerald-500"
+                    }`} />
                   </div>
 
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-emerald-700 transition-colors uppercase tracking-wide italic">
+                  <h3 className={`text-xl font-bold mb-3 transition-colors duration-300 ease-in-out uppercase tracking-wide italic ${
+                    isActive ? "text-emerald-700" : "text-slate-900 group-hover:text-emerald-700"
+                  }`}>
                     {service.title}
                   </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed border-l-2 border-slate-100 pl-3 group-hover:border-emerald-500/30 transition-colors">
+                  <p className={`text-slate-600 text-sm leading-relaxed border-l-2 pl-3 transition-colors duration-300 ease-in-out ${
+                    isActive ? "border-emerald-500/30" : "border-slate-100 group-hover:border-emerald-500/30"
+                  }`}>
                     {service.description}
                   </p>
                 </div>

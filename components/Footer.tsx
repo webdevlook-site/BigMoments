@@ -1,36 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Instagram, Facebook, ArrowUp } from "lucide-react";
-import { SectionId } from "../types";
 
 const Footer: React.FC = () => {
-  const footerRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-    if (footerRef.current) observer.observe(footerRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <footer
-      ref={footerRef}
-      className="bg-teal-950 text-white py-12 relative z-20"
-    >
-      <div
-        className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal-on-scroll ${
-          isVisible ? "is-visible" : ""
-        }`}
-      >
+    <footer className="bg-teal-950 text-white py-12 relative z-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Row: Brand & Scroll to Top */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12 border-b border-white/5 pb-12">
           <div className="flex items-center gap-3">

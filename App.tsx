@@ -3,7 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import Roster from './components/Roster';
-import GlobalNetwork from './components/GlobalNetwork';
+import News from './components/News';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
@@ -25,7 +25,7 @@ const App: React.FC = () => {
           <Hero />
           <Services />
           <Roster />
-          <GlobalNetwork />
+          <News />
           <Contact />
         </main>
         <Footer />

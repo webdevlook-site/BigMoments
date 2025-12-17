@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
                      </div>
                 </div>
                 <div className="flex flex-col">
-                    <span className="font-black text-white uppercase italic tracking-tight leading-none text-base md:text-lg group-hover/logo:text-emerald-400 transition-colors">
+                    <span className="font-heading font-black text-white uppercase italic tracking-tight leading-none text-base md:text-lg group-hover/logo:text-emerald-400 transition-colors" style={{ fontWeight: 900 }}>
                         Big Moments
                     </span>
                     <span className="text-[8px] md:text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] leading-none group-hover/logo:text-white transition-colors">
@@ -159,7 +159,8 @@ const Navbar: React.FC = () => {
                   <button
                     key={link.id}
                     onClick={() => scrollToSection(link.id)}
-                    className="relative text-4xl font-black text-white hover:text-emerald-400 hover:italic transition-all duration-300 uppercase tracking-tight"
+                    className="relative font-heading text-4xl font-black text-white hover:text-emerald-400 hover:italic transition-all duration-300 uppercase tracking-tight"
+                    style={{ fontWeight: 900 }}
                   >
                       {link.label}
                   </button>

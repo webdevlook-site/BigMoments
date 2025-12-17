@@ -40,14 +40,14 @@ const Hero: React.FC = () => {
           </div>
 
           {/* Main Title */}
-          <div className="mb-8 font-black text-5xl sm:text-6xl lg:text-7xl uppercase italic tracking-tighter leading-[0.9] select-none text-white">
+          <h1 className="mb-8 font-heading font-black text-5xl sm:text-6xl lg:text-7xl uppercase italic tracking-tighter leading-[0.9] select-none text-white">
             <div>Big Moments</div>
             <div>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 pr-4 pb-2 inline-block">
                 For Your Career
               </span>
             </div>
-          </div>
+          </h1>
 
           {/* Description */}
           <div className="flex flex-col gap-4 mb-10 border-l-4 border-emerald-500 pl-6 text-left">
