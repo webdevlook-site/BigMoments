@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { SectionId, ServiceItem } from "../types";
 import {
   Newspaper,
   Calendar,
@@ -109,6 +110,7 @@ const News: React.FC = () => {
     <>
       <section
         ref={sectionRef}
+        id={SectionId.NEWS}
         className="py-24 bg-slate-50 relative overflow-hidden"
       >
         {/* Background: Subtle Pitch Markings */}

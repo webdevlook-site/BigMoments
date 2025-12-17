@@ -16,8 +16,9 @@ export interface ServiceItem {
 }
 
 export enum SectionId {
-  HOME = 'home',
-  ABOUT = 'about',
-  PLAYERS = 'players',
-  CONTACT = 'contact'
+  HOME = "home",
+  ABOUT = "about",
+  PLAYERS = "players",
+  NEWS = "news",
+  CONTACT = "contact",
 }

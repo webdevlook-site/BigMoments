@@ -48,7 +48,7 @@ const Contact: React.FC = () => {
                 <div className="relative w-40 h-40 mb-6 group">
                   <div className="absolute inset-0 bg-emerald-500 rounded-full blur-md opacity-20 group-hover:opacity-40 transition-opacity"></div>
                   <img
-                    src="public/images/milos-manojlovic.png"
+                    src="images/milos-manojlovic.png"
                     alt="Miloš Manojlović"
                     className="w-full h-full rounded-full object-cover border-4 border-teal-700 relative z-10 shadow-xl"
                   />
