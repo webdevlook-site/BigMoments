@@ -34,13 +34,13 @@ const Hero: React.FC = () => {
         {/* Left Column: Typography */}
         <div className="text-center lg:text-left flex flex-col items-center lg:items-start">
           {/* Tagline - Added mt-24 for mobile to push it well below fixed navbar */}
-          <div className="mt-24 lg:mt-0 inline-flex items-center gap-2 px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold text-xs uppercase tracking-[0.2em] mb-8">
+          <div className="mt-24 lg:mt-0 hidden md:inline-flex items-center gap-2 px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold text-xs uppercase tracking-[0.2em] mb-8">
             <Trophy className="w-3 h-3 fill-current" />
             Est. 2011 • Belgrade
           </div>
 
           {/* Main Title */}
-          <h1 className="mb-8 font-heading font-black text-5xl sm:text-6xl lg:text-7xl uppercase italic tracking-tighter leading-[0.9] select-none text-white">
+          <h1 className="pt-8 md:pt-0 mb-8 font-heading font-black text-5xl sm:text-6xl lg:text-7xl uppercase italic tracking-tighter leading-[0.9] select-none text-white">
             <div>Big Moments</div>
             <div>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 pr-4 pb-2 inline-block">
