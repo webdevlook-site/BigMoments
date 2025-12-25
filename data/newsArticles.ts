@@ -16,6 +16,7 @@
  * - excerpt: Short preview shown in the card (2-3 sentences)
  * - fullContent: Array of paragraphs for the full article
  * - date: Display date (e.g., "December 15, 2025")
+ * - author: Author name (e.g., "Big Moments Team", "Miloš Manojlović")
  * - category: Tag for the article (Transfers, Partnerships, Programs, etc.)
  * - imageUrl: Placeholder image URL (will show icon if not loaded)
  */
@@ -26,6 +27,7 @@ export interface NewsArticle {
   excerpt: string;
   fullContent: string[];
   date: string;
+  author: string;
   category: string;
   imageUrl: string;
 }
@@ -42,6 +44,7 @@ export const newsArticles: NewsArticle[] = [
       "We are committed to supporting our players through every stage of their career, from initial contract negotiations to settling into their new environment. This transfer exemplifies our agency's dedication to creating life-changing opportunities for talented athletes."
     ],
     date: "December 15, 2025",
+    author: "Miloš Manojlović",
     category: "Transfers",
     imageUrl: "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&h=600&fit=crop",
   },
@@ -56,6 +59,7 @@ export const newsArticles: NewsArticle[] = [
       "Our scouts bring decades of combined experience and deep relationships within the football community, ensuring we can offer our players the best possible career guidance and opportunities."
     ],
     date: "December 10, 2025",
+    author: "Big Moments Team",
     category: "Partnerships",
     imageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop",
   },
@@ -71,6 +75,7 @@ export const newsArticles: NewsArticle[] = [
       "Career transition planning prepares players for life after professional sports, helping them identify interests, develop new skills, and explore opportunities in coaching, business, media, or other fields."
     ],
     date: "December 5, 2025",
+    author: "Big Moments Team",
     category: "Programs",
     imageUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=600&fit=crop",
   },
@@ -86,6 +91,7 @@ export const newsArticles: NewsArticle[] = [
       "This success story reminds us why we do what we do - to help talented young players achieve their dreams and build sustainable careers in professional football."
     ],
     date: "November 28, 2025",
+    author: "Miloš Manojlović",
     category: "Success Stories",
     imageUrl: "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&h=600&fit=crop",
   },
@@ -101,6 +107,7 @@ export const newsArticles: NewsArticle[] = [
       "As we look ahead to future transfer windows, we remain committed to our core principle: every player is treated as family, not just another entry in a database."
     ],
     date: "November 20, 2025",
+    author: "Big Moments Team",
     category: "Transfers",
     imageUrl: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&h=600&fit=crop",
   },
@@ -116,6 +123,7 @@ export const newsArticles: NewsArticle[] = [
       "This initiative reflects our core values and commitment to the broader football community. We're not just building careers - we're building character and giving back to the game that has given us so much."
     ],
     date: "November 15, 2025",
+    author: "Big Moments Team",
     category: "Community",
     imageUrl: "https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?w=800&h=600&fit=crop",
   },

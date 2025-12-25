@@ -8,8 +8,9 @@ import {
   TrendingUp,
   Image as ImageIcon,
   X,
-  Clock,
   Filter,
+  Tag,
+  User,
 } from "lucide-react";
 import { newsArticles, NewsArticle } from "../data/newsArticles";
 
@@ -36,13 +37,6 @@ const News: React.FC = () => {
     if (selectedCategory === "All") return newsArticles;
     return newsArticles.filter(article => article.category === selectedCategory);
   }, [selectedCategory]);
-
-  // Calculate read time (assuming 200 words per minute)
-  const calculateReadTime = (content: string[]) => {
-    const wordCount = content.join(" ").split(" ").length;
-    const minutes = Math.ceil(wordCount / 200);
-    return `${minutes} min read`;
-  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -340,7 +334,7 @@ const News: React.FC = () => {
                           {article.excerpt}
                         </p>
 
-                        {/* Date, Read Time, and Read Button */}
+                        {/* Date, Author and Read Button */}
                         <div className="space-y-3 pt-4 border-t border-slate-100 mt-auto">
                           <div className="flex items-center justify-between text-slate-400 text-xs">
                             <div className="flex items-center gap-2">
@@ -348,8 +342,8 @@ const News: React.FC = () => {
                               <span>{article.date}</span>
                             </div>
                             <div className="flex items-center gap-1.5">
-                              <Clock className="w-3.5 h-3.5" />
-                              <span>{calculateReadTime(article.fullContent)}</span>
+                              <User className="w-3.5 h-3.5" />
+                              <span className="font-medium">{article.author}</span>
                             </div>
                           </div>
 
@@ -357,7 +351,7 @@ const News: React.FC = () => {
                             onClick={() => openArticle(article)}
                             className="w-full px-4 py-2 bg-teal-950 text-white font-bold text-xs uppercase tracking-wider rounded hover:bg-teal-900 transition-colors duration-300 ease-in-out"
                           >
-                            Read More
+                            Read Full Article
                           </button>
                         </div>
 
@@ -432,15 +426,15 @@ const News: React.FC = () => {
                 {selectedArticle.title}
               </h2>
 
-              {/* Date and Read Time */}
-              <div className="flex items-center justify-between mb-8 pb-8 border-b border-slate-200">
+              {/* Date and Author */}
+              <div className="flex items-center gap-4 mb-8 pb-8 border-b border-slate-200">
                 <div className="flex items-center gap-2 text-slate-400 text-sm">
                   <Calendar className="w-4 h-4" />
                   <span>{selectedArticle.date}</span>
                 </div>
-                <div className="flex items-center gap-2 text-slate-400 text-sm">
-                  <Clock className="w-4 h-4" />
-                  <span>{calculateReadTime(selectedArticle.fullContent)}</span>
+                <div className="flex items-center gap-2 text-slate-600 text-sm">
+                  <User className="w-4 h-4" />
+                  <span className="font-medium">{selectedArticle.author}</span>
                 </div>
               </div>
 
