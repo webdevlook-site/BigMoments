@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { SectionId, ServiceItem } from "../types";
 import {
   Newspaper,
@@ -8,6 +8,8 @@ import {
   TrendingUp,
   Image as ImageIcon,
   X,
+  Clock,
+  Filter,
 } from "lucide-react";
 import { newsArticles, NewsArticle } from "../data/newsArticles";
 
@@ -19,8 +21,28 @@ const News: React.FC = () => {
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(
     null
   );
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+
+  // Get unique categories
+  const categories = useMemo(() => {
+    const cats = Array.from(new Set(newsArticles.map(article => article.category)));
+    return ["All", ...cats.sort()];
+  }, []);
+
+  // Filter articles by category
+  const filteredArticles = useMemo(() => {
+    if (selectedCategory === "All") return newsArticles;
+    return newsArticles.filter(article => article.category === selectedCategory);
+  }, [selectedCategory]);
+
+  // Calculate read time (assuming 200 words per minute)
+  const calculateReadTime = (content: string[]) => {
+    const wordCount = content.join(" ").split(" ").length;
+    const minutes = Math.ceil(wordCount / 200);
+    return `${minutes} min read`;
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -61,7 +83,12 @@ const News: React.FC = () => {
     };
   }, [selectedArticle]);
 
-  const maxIndex = Math.max(0, newsArticles.length - itemsPerView);
+  // Reset carousel when category changes
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [selectedCategory]);
+
+  const maxIndex = Math.max(0, filteredArticles.length - itemsPerView);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => Math.max(0, prev - 1));
@@ -154,6 +181,67 @@ const News: React.FC = () => {
             </p>
           </div>
 
+          {/* Category Filters */}
+          <div
+            className={`mb-8 reveal-on-scroll delay-100 ${
+              isVisible ? "is-visible" : ""
+            }`}
+          >
+            <div className="flex items-center gap-2 mb-4 max-[400px]:mb-3">
+              <Filter className="w-4 h-4 text-slate-600 max-[400px]:w-3.5 max-[400px]:h-3.5" />
+              <span className="text-sm font-bold text-slate-600 uppercase tracking-wider max-[400px]:text-xs">
+                Filter by Category
+              </span>
+            </div>
+
+            {/* Mobile Dropdown (≤768px) */}
+            <div className="md:hidden">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg bg-white border-2 border-slate-200 text-slate-900 font-bold text-sm uppercase tracking-wider focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all duration-300 ease-in-out appearance-none cursor-pointer"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+                  backgroundPosition: 'right 0.5rem center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: '1.5em 1.5em',
+                  paddingRight: '2.5rem'
+                }}
+              >
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                    {category !== "All" && ` (${newsArticles.filter(a => a.category === category).length})`}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Desktop Buttons (>768px) */}
+            <div className="hidden md:flex flex-wrap gap-2">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition-all duration-300 ease-in-out ${
+                    selectedCategory === category
+                      ? "bg-teal-600 text-white shadow-md"
+                      : "bg-white text-slate-600 border border-slate-200 hover:bg-teal-50 hover:border-teal-500 hover:text-teal-600"
+                  }`}
+                >
+                  {category}
+                  {category !== "All" && (
+                    <span className={`ml-1.5 text-[10px] ${
+                      selectedCategory === category ? "text-emerald-200" : "text-slate-400"
+                    }`}>
+                      ({newsArticles.filter(a => a.category === category).length})
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Carousel Container */}
           <div
             className={`relative reveal-on-scroll delay-200 ${
@@ -161,43 +249,66 @@ const News: React.FC = () => {
             }`}
           >
             {/* Carousel Navigation */}
-            <div className="flex items-center justify-start mb-8">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between mb-8 max-[400px]:mb-6">
+              <div className="flex items-center gap-3 max-[400px]:gap-2">
                 <button
                   onClick={handlePrev}
                   disabled={currentIndex === 0}
-                  className="p-3 rounded-lg bg-white border border-slate-200 text-slate-600 hover:bg-teal-50 hover:border-teal-500 hover:text-teal-600 transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-200 disabled:hover:text-slate-600 shadow-sm"
+                  className="p-3 max-[400px]:p-2 rounded-lg bg-white border border-slate-200 text-slate-600 hover:bg-teal-50 hover:border-teal-500 hover:text-teal-600 transition-all duration-300 ease-in-out disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-200 disabled:hover:text-slate-600 shadow-sm"
                   aria-label="Previous news"
                 >
-                  <ChevronLeft className="w-5 h-5" />
+                  <ChevronLeft className="w-5 h-5 max-[400px]:w-4 max-[400px]:h-4" />
                 </button>
                 <button
                   onClick={handleNext}
                   disabled={currentIndex >= maxIndex}
-                  className="p-3 rounded-lg bg-white border border-slate-200 text-slate-600 hover:bg-teal-50 hover:border-teal-500 hover:text-teal-600 transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-200 disabled:hover:text-slate-600 shadow-sm"
+                  className="p-3 max-[400px]:p-2 rounded-lg bg-white border border-slate-200 text-slate-600 hover:bg-teal-50 hover:border-teal-500 hover:text-teal-600 transition-all duration-300 ease-in-out disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-200 disabled:hover:text-slate-600 shadow-sm"
                   aria-label="Next news"
                 >
-                  <ChevronRight className="w-5 h-5" />
+                  <ChevronRight className="w-5 h-5 max-[400px]:w-4 max-[400px]:h-4" />
                 </button>
+              </div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider max-[400px]:text-[10px]">
+                {filteredArticles.length} {filteredArticles.length === 1 ? "Article" : "Articles"}
               </div>
             </div>
 
+            {/* Empty State */}
+            {filteredArticles.length === 0 && (
+              <div className="text-center py-16 px-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+                  <Newspaper className="w-8 h-8 text-slate-400" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">No Articles Found</h3>
+                <p className="text-slate-600 mb-6">
+                  No articles match the selected category. Try selecting a different filter.
+                </p>
+                <button
+                  onClick={() => setSelectedCategory("All")}
+                  className="px-6 py-2 bg-teal-600 text-white font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-teal-700 transition-colors duration-300 ease-in-out"
+                >
+                  View All Articles
+                </button>
+              </div>
+            )}
+
             {/* Carousel Track */}
-            <div
-              className="overflow-hidden"
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-            >
+            {filteredArticles.length > 0 && (
               <div
-                className="flex transition-transform duration-500 ease-out"
-                style={{
-                  transform: `translateX(-${
-                    currentIndex * (100 / itemsPerView)
-                  }%)`,
-                }}
+                className="overflow-hidden"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
               >
-                {newsArticles.map((article) => (
+                <div
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{
+                    transform: `translateX(-${
+                      currentIndex * (100 / itemsPerView)
+                    }%)`,
+                  }}
+                >
+                  {filteredArticles.map((article) => (
                   <div
                     key={article.id}
                     className="flex-shrink-0 px-3"
@@ -229,16 +340,22 @@ const News: React.FC = () => {
                           {article.excerpt}
                         </p>
 
-                        {/* Date and Read Button */}
-                        <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
-                          <div className="flex items-center gap-2 text-slate-400 text-xs">
-                            <Calendar className="w-3.5 h-3.5" />
-                            <span>{article.date}</span>
+                        {/* Date, Read Time, and Read Button */}
+                        <div className="space-y-3 pt-4 border-t border-slate-100 mt-auto">
+                          <div className="flex items-center justify-between text-slate-400 text-xs">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="w-3.5 h-3.5" />
+                              <span>{article.date}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <Clock className="w-3.5 h-3.5" />
+                              <span>{calculateReadTime(article.fullContent)}</span>
+                            </div>
                           </div>
 
                           <button
                             onClick={() => openArticle(article)}
-                            className="px-4 py-2 bg-teal-950 text-white font-bold text-xs uppercase tracking-wider rounded hover:bg-teal-900 transition-colors"
+                            className="w-full px-4 py-2 bg-teal-950 text-white font-bold text-xs uppercase tracking-wider rounded hover:bg-teal-900 transition-colors duration-300 ease-in-out"
                           >
                             Read More
                           </button>
@@ -249,25 +366,28 @@ const News: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Dots Indicator */}
-            <div className="flex justify-center gap-2 mt-8">
-              {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    index === currentIndex
-                      ? "bg-teal-600 w-8"
-                      : "bg-slate-300 hover:bg-slate-400"
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
+            {filteredArticles.length > 0 && maxIndex > 0 && (
+              <div className="flex justify-center gap-2 mt-8">
+                {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ease-in-out ${
+                      index === currentIndex
+                        ? "bg-teal-600 w-8"
+                        : "bg-slate-300 hover:bg-slate-400"
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -312,10 +432,16 @@ const News: React.FC = () => {
                 {selectedArticle.title}
               </h2>
 
-              {/* Date */}
-              <div className="flex items-center gap-2 text-slate-400 text-sm mb-8 pb-8 border-b border-slate-200">
-                <Calendar className="w-4 h-4" />
-                <span>{selectedArticle.date}</span>
+              {/* Date and Read Time */}
+              <div className="flex items-center justify-between mb-8 pb-8 border-b border-slate-200">
+                <div className="flex items-center gap-2 text-slate-400 text-sm">
+                  <Calendar className="w-4 h-4" />
+                  <span>{selectedArticle.date}</span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-400 text-sm">
+                  <Clock className="w-4 h-4" />
+                  <span>{calculateReadTime(selectedArticle.fullContent)}</span>
+                </div>
               </div>
 
               {/* Full Content */}
