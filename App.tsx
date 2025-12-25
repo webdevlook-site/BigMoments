@@ -21,7 +21,7 @@ const App: React.FC = () => {
       */}
       <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-emerald-200 selection:text-teal-900">
         <Navbar />
-        <main>
+        <main id="main-content" role="main">
           <Hero />
           <Services />
           <Roster />

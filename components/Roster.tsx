@@ -180,7 +180,7 @@ const Roster: React.FC = () => {
                     {/* Player Image */}
                     <img
                       src={player.images[currentImageIndex[player.id] || 0]}
-                      alt={player.name}
+                      alt={`${player.name}, ${player.position} at ${player.club}`}
                       className={`w-full h-full object-cover object-top transition-all duration-700 ease-in-out ${
                         isActive
                           ? "scale-105 grayscale-0"
@@ -189,7 +189,7 @@ const Roster: React.FC = () => {
                     />
 
                     {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-teal-950"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-teal-950" aria-hidden="true"></div>
 
                     {/* Position Badge */}
                     <div className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/95 backdrop-blur-sm shadow-lg">
@@ -209,9 +209,9 @@ const Roster: React.FC = () => {
                           className={`absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all duration-300 ease-in-out z-20 ${
                             isActive
                               ? "opacity-100"
-                              : "opacity-0 group-hover:opacity-100 group-active:opacity-100"
-                          } hover:bg-emerald-500 hover:border-emerald-400`}
-                          aria-label="Previous image"
+                              : "opacity-0 group-hover:opacity-100 group-active:opacity-100 focus:opacity-100"
+                          } hover:bg-emerald-500 hover:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-teal-950`}
+                          aria-label={`Previous image of ${player.name}`}
                         >
                           <ChevronLeft className="w-5 h-5" />
                         </button>
@@ -222,9 +222,9 @@ const Roster: React.FC = () => {
                           className={`absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all duration-300 ease-in-out z-20 ${
                             isActive
                               ? "opacity-100"
-                              : "opacity-0 group-hover:opacity-100 group-active:opacity-100"
-                          } hover:bg-emerald-500 hover:border-emerald-400`}
-                          aria-label="Next image"
+                              : "opacity-0 group-hover:opacity-100 group-active:opacity-100 focus:opacity-100"
+                          } hover:bg-emerald-500 hover:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-teal-950`}
+                          aria-label={`Next image of ${player.name}`}
                         >
                           <ChevronRight className="w-5 h-5" />
                         </button>

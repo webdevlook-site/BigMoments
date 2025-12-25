@@ -6,6 +6,7 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>(SectionId.HOME);
 
   useEffect(() => {
     // Add a small delay to prevent initial transition flash
@@ -13,6 +14,42 @@ const Navbar: React.FC = () => {
       setIsMounted(true);
     }, 100);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Track active section with IntersectionObserver
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-50% 0px -50% 0px',
+      threshold: 0
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe all sections
+    const sections = [
+      SectionId.HOME,
+      SectionId.ABOUT,
+      SectionId.PLAYERS,
+      SectionId.NEWS,
+    ];
+
+    sections.forEach((sectionId) => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   // useLayoutEffect ensures state is correct before paint
@@ -60,8 +97,17 @@ const Navbar: React.FC = () => {
 
   return (
     <>
+      {/* Skip to Content Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:px-6 focus:py-3 focus:bg-emerald-600 focus:text-white focus:rounded-lg focus:font-bold focus:shadow-lg focus:outline-none focus:ring-4 focus:ring-emerald-400/50"
+      >
+        Skip to main content
+      </a>
+
       {/* Floating Header Container - Fixed positioning, centered */}
       <header
+        role="banner"
         className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-500 pointer-events-none ${
           isScrolled ? "pt-2 md:pt-4" : "pt-6 md:pt-8"
         }`}
@@ -103,12 +149,13 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Center: Tactical Navigation (Desktop) - Midfield Layout */}
-          <nav className="hidden md:flex items-center gap-1 bg-black/20 rounded-full p-1 border border-white/5 mx-4">
+          <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1 bg-black/20 rounded-full p-1 border border-white/5 mx-4">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollToSection(link.id)}
-                className="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-300 relative overflow-hidden focus:outline-none"
+                aria-label={`Navigate to ${link.label} section`}
+                className="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-300 relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-teal-950"
               >
                 {link.label}
               </button>
@@ -119,7 +166,8 @@ const Navbar: React.FC = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => scrollToSection(SectionId.CONTACT)}
-              className="hidden md:flex items-center gap-2 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full font-bold text-xs uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] group/btn shadow-lg shadow-emerald-900/20"
+              aria-label="Contact us"
+              className="hidden md:flex items-center gap-2 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full font-bold text-xs uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] group/btn shadow-lg shadow-emerald-900/20 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-teal-950"
             >
               <span>Contact</span>
               {/* Custom Soccer Ball SVG */}
@@ -178,16 +226,27 @@ const Navbar: React.FC = () => {
 
         {/* Menu Items */}
         <div className="flex flex-col items-center gap-8 w-full px-8 text-center">
-          {navLinks.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => scrollToSection(link.id)}
-              className="relative font-heading text-4xl font-black text-white hover:text-emerald-400 hover:italic transition-all duration-300 uppercase tracking-tight"
-              style={{ fontWeight: 900 }}
-            >
-              {link.label}
-            </button>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
+            return (
+              <button
+                key={link.id}
+                onClick={() => scrollToSection(link.id)}
+                className={`relative font-heading text-4xl font-black uppercase tracking-tight transition-all duration-300 ${
+                  isActive
+                    ? "text-emerald-400 italic scale-110"
+                    : "text-white hover:text-emerald-400 hover:italic hover:scale-105"
+                }`}
+                style={{ fontWeight: 900 }}
+              >
+                {link.label}
+                {/* Active indicator underline */}
+                {isActive && (
+                  <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-12 h-1 bg-linear-to-r from-emerald-400 to-teal-400 rounded-full"></span>
+                )}
+              </button>
+            );
+          })}
 
           <div className="w-16 h-1 bg-white/10 rounded-full my-4"></div>
 
