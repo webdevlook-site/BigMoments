@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Trophy, Play, CircleDot } from "lucide-react";
+import { ArrowRight, Trophy, CircleDot } from "lucide-react";
 import { SectionId } from "../types";
 
 const Hero: React.FC = () => {
@@ -95,28 +95,19 @@ const Hero: React.FC = () => {
           <div className="absolute top-1/2 left-1/2 lg:left-[60%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[80px]"></div>
 
           {/* Video Container */}
-          <div className="relative z-10 w-full max-w-xl bg-teal-950/80 rounded-2xl border border-teal-800 shadow-2xl overflow-hidden group hover:border-emerald-500/50 cursor-pointer backdrop-blur-sm transition-all duration-300 hover:-translate-y-1">
-            {/* Thumbnail Area */}
+          <div className="relative z-10 w-full max-w-xl bg-teal-950/80 rounded-2xl border border-teal-800 shadow-2xl overflow-hidden group hover:border-emerald-500/50 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1">
+            {/* YouTube Embed */}
             <div className="relative aspect-video w-full bg-teal-900 overflow-hidden">
-              <img
-                src="https://placehold.co/1920x1080/042f2e/10b981?text=Agency+Showreel"
-                alt="Agency Showreel Thumbnail"
-                className="w-full h-full object-cover opacity-80 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-transparent to-transparent opacity-80"></div>
-
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <div className="relative w-20 h-20 flex items-center justify-center">
-                  <div className="absolute inset-0 bg-emerald-500 rounded-full opacity-20"></div>
-                  <div className="absolute inset-0 bg-emerald-500/90 backdrop-blur-sm rounded-full shadow-[0_0_30px_rgba(16,185,129,0.5)] group-hover:scale-110 transition-transform duration-300"></div>
-                  <Play className="w-8 h-8 text-white fill-white ml-1 relative z-10" />
-                </div>
-              </div>
-
-              <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-white text-xs font-mono border border-white/10">
-                00:00
-              </div>
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/MmPyn4z9rHw"
+                title="Agency Showreel"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="w-full h-full"
+              ></iframe>
             </div>
 
             <div className="p-5 bg-teal-950/50 backdrop-blur-sm border-t border-teal-800/50">
@@ -125,11 +116,11 @@ const Hero: React.FC = () => {
                   <div className="flex items-center gap-2 mb-1">
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                     <span className="text-[10px] font-bold text-teal-300 uppercase tracking-widest">
-                      Featured Content
+                      Agency Showreel
                     </span>
                   </div>
                   <h3 className="text-white font-bold text-lg leading-tight">
-                    Building Legacies Since 2011
+                    Our Players, Our Passion
                   </h3>
                 </div>
                 <div className="hidden sm:flex h-8 w-8 rounded-full border border-teal-700 items-center justify-center text-teal-500">
