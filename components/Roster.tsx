@@ -83,7 +83,10 @@ const Roster: React.FC = () => {
   }, []);
 
   const handleCardClick = (id: number) => {
-    setActiveCard(activeCard === id ? null : id);
+    // Only toggle active state on mobile (touch devices)
+    if ('ontouchstart' in window) {
+      setActiveCard(activeCard === id ? null : id);
+    }
   };
 
   const handlePrevImage = (
