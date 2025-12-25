@@ -252,7 +252,8 @@ const Navbar: React.FC = () => {
 
           <button
             onClick={() => scrollToSection(SectionId.CONTACT)}
-            className="px-12 py-5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl font-bold text-lg uppercase tracking-wider shadow-2xl hover:scale-105 transition-transform duration-300 flex items-center gap-3"
+            className="px-12 py-5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl font-black text-lg uppercase tracking-wider shadow-2xl hover:scale-105 transition-transform duration-300 flex items-center gap-3"
+            style={{ fontWeight: 900 }}
           >
             Let's Talk <ArrowRight className="w-5 h-5" />
           </button>

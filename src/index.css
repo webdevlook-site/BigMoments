@@ -38,6 +38,31 @@ button, a, div {
   font-weight: 900 !important;
 }
 
+/* Force bold rendering on all buttons for mobile devices */
+button {
+  font-weight: 700 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Ensure font-bold class works on mobile */
+.font-bold {
+  font-weight: 700 !important;
+}
+
+/* Ensure font-black works properly on mobile */
+.font-black {
+  font-weight: 900 !important;
+  -webkit-text-stroke: 0.3px;
+}
+
+/* Force uppercase text to render properly on mobile */
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;

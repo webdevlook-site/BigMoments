@@ -170,7 +170,7 @@ const Roster: React.FC = () => {
                 } ${
                   isActive
                     ? "-translate-y-3"
-                    : "hover:-translate-y-3 active:-translate-y-3"
+                    : "md:hover:-translate-y-3"
                 }`}
               >
                 {/* Main Card Container */}
@@ -184,7 +184,7 @@ const Roster: React.FC = () => {
                       className={`w-full h-full object-cover object-top transition-all duration-700 ease-in-out ${
                         isActive
                           ? "scale-105 grayscale-0"
-                          : "scale-100 grayscale group-hover:scale-105 group-hover:grayscale-0 group-active:scale-105 group-active:grayscale-0"
+                          : "scale-100 grayscale md:group-hover:scale-105 md:group-hover:grayscale-0"
                       }`}
                     />
 
@@ -209,7 +209,7 @@ const Roster: React.FC = () => {
                           className={`absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all duration-300 ease-in-out z-20 ${
                             isActive
                               ? "opacity-100"
-                              : "opacity-0 group-hover:opacity-100 group-active:opacity-100 focus:opacity-100"
+                              : "opacity-0 md:group-hover:opacity-100 focus:opacity-100"
                           } hover:bg-emerald-500 hover:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-teal-950`}
                           aria-label={`Previous image of ${player.name}`}
                         >
@@ -222,7 +222,7 @@ const Roster: React.FC = () => {
                           className={`absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all duration-300 ease-in-out z-20 ${
                             isActive
                               ? "opacity-100"
-                              : "opacity-0 group-hover:opacity-100 group-active:opacity-100 focus:opacity-100"
+                              : "opacity-0 md:group-hover:opacity-100 focus:opacity-100"
                           } hover:bg-emerald-500 hover:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-teal-950`}
                           aria-label={`Next image of ${player.name}`}
                         >
@@ -308,7 +308,7 @@ const Roster: React.FC = () => {
                       className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-500 ease-in-out ${
                         isActive
                           ? "w-full"
-                          : "w-0 group-hover:w-full group-active:w-full"
+                          : "w-0 md:group-hover:w-full"
                       }`}
                     ></div>
                   </div>
@@ -318,7 +318,7 @@ const Roster: React.FC = () => {
                     className={`absolute inset-0 rounded-3xl border-2 transition-all duration-500 ease-in-out pointer-events-none ${
                       isActive
                         ? "border-emerald-500/60 shadow-[0_0_30px_rgba(16,185,129,0.3)]"
-                        : "border-white/5 group-hover:border-emerald-500/60 group-hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] group-active:border-emerald-500/60 group-active:shadow-[0_0_30px_rgba(16,185,129,0.3)]"
+                        : "border-white/5 md:group-hover:border-emerald-500/60 md:group-hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]"
                     }`}
                   ></div>
                 </div>
