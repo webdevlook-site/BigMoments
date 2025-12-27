@@ -150,16 +150,24 @@ const Navbar: React.FC = () => {
 
           {/* Center: Tactical Navigation (Desktop) - Midfield Layout */}
           <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1 bg-black/20 rounded-full p-1 border border-white/5 mx-4">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
-                aria-label={`Navigate to ${link.label} section`}
-                className="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-300 relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-teal-950"
-              >
-                {link.label}
-              </button>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => scrollToSection(link.id)}
+                  aria-label={`Navigate to ${link.label} section`}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-teal-950 ${
+                    isActive
+                      ? "text-white bg-emerald-600 shadow-lg shadow-emerald-900/50"
+                      : "text-slate-300 hover:text-white hover:bg-white/10"
+                  }`}
+                >
+                  {link.label}
+                </button>
+              );
+            })}
           </nav>
 
           {/* Right: Action Area */}
