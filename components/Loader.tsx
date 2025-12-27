@@ -181,13 +181,13 @@ const Loader: React.FC<LoaderProps> = ({ onFinish }) => {
         <div className="text-center relative">
           {/* Main Title */}
           <div className="relative mb-8">
-            <h1 className="font-heading text-4xl md:text-5xl text-white uppercase italic tracking-tight" style={{ textShadow: '0 4px 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(16, 185, 129, 0.3)' }}>
+            <h1 className="font-heading text-4xl md:text-5xl text-white uppercase italic tracking-tight animate-[text-reveal_1.2s_ease-out_forwards]" style={{ textShadow: '0 4px 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(16, 185, 129, 0.3)' }}>
               <span className="font-black" style={{ fontWeight: 900 }}>BIG</span>
               <span className="font-normal" style={{ fontWeight: 400 }}>MOMENTS</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="mt-3 text-emerald-200/70 text-xs md:text-sm font-medium tracking-[0.3em] uppercase animate-[fade-in_1s_ease-out_forwards_0.5s] opacity-0">
+            <p className="mt-3 text-emerald-200/70 text-xs md:text-sm font-medium tracking-[0.3em] uppercase animate-[fade-in_1s_ease-out_forwards_0.8s] opacity-0">
               Sport Management Agency
             </p>
           </div>
@@ -209,6 +209,16 @@ const Loader: React.FC<LoaderProps> = ({ onFinish }) => {
         @keyframes fade-in {
           from { opacity: 0; }
           to { opacity: 1; }
+        }
+        @keyframes text-reveal {
+          0% {
+            clip-path: inset(0 100% 0 0);
+            opacity: 0;
+          }
+          100% {
+            clip-path: inset(0 0 0 0);
+            opacity: 1;
+          }
         }
         @keyframes loading-bar {
             0% { transform: translateX(-100%); }
