@@ -181,8 +181,9 @@ const Loader: React.FC<LoaderProps> = ({ onFinish }) => {
         <div className="text-center relative">
           {/* Main Title */}
           <div className="relative mb-8">
-            <h1 className="font-heading text-4xl md:text-5xl font-black text-white uppercase italic tracking-tight">
-              Big Moments
+            <h1 className="font-heading text-4xl md:text-5xl text-white uppercase italic tracking-tight" style={{ textShadow: '0 4px 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(16, 185, 129, 0.3)' }}>
+              <span className="font-black" style={{ fontWeight: 900 }}>BIG</span>
+              <span className="font-normal" style={{ fontWeight: 400 }}>MOMENTS</span>
             </h1>
 
             {/* Subtitle */}
