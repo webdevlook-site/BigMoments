@@ -22,6 +22,8 @@ const News: React.FC = () => {
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(
     null
   );
+  const [isClosing, setIsClosing] = useState(false);
+  const [isModalMounted, setIsModalMounted] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
@@ -94,10 +96,20 @@ const News: React.FC = () => {
 
   const openArticle = (article: NewsArticle) => {
     setSelectedArticle(article);
+    setIsClosing(false);
+    // Trigger opening animation after modal mounts
+    setTimeout(() => {
+      setIsModalMounted(true);
+    }, 10);
   };
 
   const closeArticle = () => {
-    setSelectedArticle(null);
+    setIsClosing(true);
+    setIsModalMounted(false);
+    setTimeout(() => {
+      setSelectedArticle(null);
+      setIsClosing(false);
+    }, 300); // Match animation duration
   };
 
   // Swipe handlers
@@ -389,11 +401,17 @@ const News: React.FC = () => {
       {/* Article Modal Overlay */}
       {selectedArticle && (
         <div
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-[fade-in_0.3s_ease-out]"
+          className={`fixed inset-0 z-200 flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm md:p-4 transition-opacity duration-300 ${
+            isModalMounted && !isClosing ? "opacity-100" : "opacity-0"
+          }`}
           onClick={closeArticle}
         >
           <div
-            className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-[slide-up_0.3s_ease-out]"
+            className={`bg-white rounded-t-3xl md:rounded-2xl max-w-4xl w-full max-h-[92vh] md:max-h-[90vh] overflow-y-auto relative shadow-2xl transition-all duration-300 ease-out ${
+              isModalMounted && !isClosing
+                ? "translate-y-0 md:scale-100 md:opacity-100"
+                : "translate-y-full md:translate-y-0 md:scale-95 md:opacity-0"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -461,19 +479,6 @@ const News: React.FC = () => {
               </div>
             </div>
           </div>
-
-          <style>{`
-            @keyframes slide-up {
-              from {
-                opacity: 0;
-                transform: translateY(20px);
-              }
-              to {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
-          `}</style>
         </div>
       )}
     </>

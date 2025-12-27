@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Trophy, CircleDot } from "lucide-react";
+import { ArrowRight, Trophy } from "lucide-react";
 import { SectionId } from "../types";
 
 const Hero: React.FC = () => {
@@ -95,39 +95,35 @@ const Hero: React.FC = () => {
           <div className="absolute top-1/2 left-1/2 lg:left-[60%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[80px]"></div>
 
           {/* Video Container */}
-          <div className="relative z-10 w-full max-w-xl bg-teal-950/80 rounded-2xl border border-teal-800 shadow-2xl overflow-hidden group hover:border-emerald-500/50 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1">
-            {/* YouTube Embed */}
-            <div className="relative aspect-video w-full bg-teal-900 overflow-hidden">
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://www.youtube.com/embed/MmPyn4z9rHw"
-                title="Agency Showreel"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                className="w-full h-full"
-              ></iframe>
-            </div>
+          <div className="relative z-10 w-full max-w-xl group">
+            <div className="relative bg-teal-950/60 backdrop-blur-sm rounded-2xl border border-emerald-500/20 shadow-2xl overflow-hidden transition-all duration-500 hover:border-emerald-500/40 hover:shadow-emerald-500/10">
+              {/* YouTube Embed */}
+              <div className="relative aspect-video w-full bg-black overflow-hidden">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/MmPyn4z9rHw"
+                  title="Agency Showreel"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
+              </div>
 
-            <div className="p-5 bg-teal-950/50 backdrop-blur-sm border-t border-teal-800/50">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                    <span className="text-[10px] font-bold text-teal-300 uppercase tracking-widest">
-                      Agency Showreel
-                    </span>
-                  </div>
-                  <h3 className="text-white font-bold text-lg leading-tight">
-                    Our Players, Our Passion
-                  </h3>
-                </div>
-                <div className="hidden sm:flex h-8 w-8 rounded-full border border-teal-700 items-center justify-center text-teal-500">
-                  <CircleDot className="w-4 h-4" />
-                </div>
+              {/* Video Caption */}
+              <div className="px-6 py-4 bg-teal-950/80 backdrop-blur-sm border-t border-emerald-500/10">
+                <h3 className="text-white font-bold text-lg leading-tight mb-1 uppercase italic tracking-tight">
+                  Watch Our Story
+                </h3>
+                <p className="text-emerald-400/80 text-xs font-medium">
+                  Building champions since 2011
+                </p>
               </div>
             </div>
+
+            {/* Subtle glow on hover */}
+            <div className="absolute -inset-1 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
           </div>
 
           {/* Decorative Elements */}
