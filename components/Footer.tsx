@@ -18,8 +18,9 @@ const Footer: React.FC = () => {
               </div>
             </div>
             <div>
-              <h3 className="text-2xl font-black uppercase italic tracking-tight leading-none">
-                Big Moments
+              <h3 className="text-2xl uppercase italic tracking-tight leading-none">
+                <span className="font-black" style={{ fontWeight: 900 }}>BIG</span>
+                <span className="font-normal" style={{ fontWeight: 400 }}>MOMENTS</span>
               </h3>
               <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-[0.2em]">
                 Management

@@ -136,11 +136,9 @@ const Navbar: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-col">
-              <span
-                className="font-heading font-black text-white uppercase italic tracking-tight leading-none text-base md:text-lg group-hover/logo:text-emerald-400 transition-colors"
-                style={{ fontWeight: 900 }}
-              >
-                Big Moments
+              <span className="font-heading text-white uppercase italic tracking-tight leading-none text-base md:text-lg group-hover/logo:text-emerald-400 transition-colors">
+                <span className="font-black" style={{ fontWeight: 900 }}>BIG</span>
+                <span className="font-normal" style={{ fontWeight: 400 }}>MOMENTS</span>
               </span>
               <span className="text-[8px] md:text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] leading-none group-hover/logo:text-white transition-colors">
                 Management
