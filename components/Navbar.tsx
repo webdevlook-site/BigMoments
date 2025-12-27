@@ -125,7 +125,7 @@ const Navbar: React.FC = () => {
 
           {/* Left: Brand Identity (Badge Style) */}
           <div
-            className="flex items-center gap-3 cursor-pointer group/logo"
+            className="flex items-center gap-3 cursor-pointer group/logo select-none"
             onClick={() => scrollToSection(SectionId.HOME)}
           >
             <div className="relative w-9 h-9 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-700 p-[1px] shadow-lg shadow-emerald-900/50 group-hover/logo:scale-105 transition-transform duration-300">
